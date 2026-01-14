@@ -1,0 +1,81 @@
+[
+  {
+    "id": "TC_01",
+    "description": "Positive - Valid Login",
+    "email": "admin@yourstore.com",
+    "password": "admin",
+    "isValid": true
+  },
+  {
+    "id": "TC_02",
+    "description": "Negative - Invalid Password",
+    "email": "admin@yourstore.com",
+    "password": "wrongpassword",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_03",
+    "description": "Negative - Invalid Email (Unregistered)",
+    "email": "random@email.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_04",
+    "description": "Negative - Both Invalid",
+    "email": "wrong@email.com",
+    "password": "wrong",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_05",
+    "description": "Negative - Empty Email",
+    "email": "",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Please enter your email"
+  },
+  {
+    "id": "TC_06",
+    "description": "Negative - Empty Password",
+    "email": "admin@yourstore.com",
+    "password": "",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_07",
+    "description": "Negative - Both Empty",
+    "email": "",
+    "password": "",
+    "isValid": false,
+    "expectedError": "Please enter your email"
+  },
+  {
+    "id": "TC_08",
+    "description": "Functional - Invalid Email Format (No @)",
+    "email": "adminexample.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Wrong email"
+  },
+  {
+    "id": "TC_09",
+    "description": "Functional - Max Length Email (Boundary)",
+    "email": "verylongemailaddresswithmanycharactersjusttocheckthelimitofthisfieldwhichmightbeverylongactually@yourstore.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_10",
+    "description": "Security - SQL Injection Attempt",
+    "email": "' OR '1'='1",
+    "password": "' OR '1'='1",
+    "isValid": false,
+    "expectedError": "Wrong email"
+  }
+]
