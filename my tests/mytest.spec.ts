@@ -16,11 +16,12 @@ test.describe('Data Driven Login Tests', () => {
                 await loginPage.verifyTitle(/nopcommerce/i);
                 await loginPage.logout();
             } else {
-                // Negative Scenario: Verify Login Failed (Stay on login page or see error)
-                // Note: Actual error validation depends on specific page implementation.
-                // For now, we ensure we did NOT get redirected to the dashboard.
-                // You can add specific error message assertions in LoginPage if needed.
-                await expect(page).toHaveTitle(/Login/i);
+                // Negative Scenario: Verify Login Failed
+                if (data.expectedError) {
+                    await loginPage.assertErrorMessage(data.expectedError);
+                } else {
+                    await expect(page).toHaveTitle(/Login/i);
+                }
             }
         });
     }

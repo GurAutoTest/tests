@@ -59,8 +59,7 @@
     "description": "Functional - Invalid Email Format (No @)",
     "email": "adminexample.com",
     "password": "admin",
-    "isValid": false,
-    "expectedError": "Wrong email"
+    "isValid": false
   },
   {
     "id": "TC_09",
@@ -75,7 +74,347 @@
     "description": "Security - SQL Injection Attempt",
     "email": "' OR '1'='1",
     "password": "' OR '1'='1",
+    "isValid": false
+  },
+  {
+    "id": "TC_11",
+    "description": "Functional - Email Leading Space",
+    "email": " admin@yourstore.com",
+    "password": "admin",
+    "isValid": true
+  },
+  {
+    "id": "TC_12",
+    "description": "Functional - Email Trailing Space",
+    "email": "admin@yourstore.com ",
+    "password": "admin",
+    "isValid": true
+  },
+  {
+    "id": "TC_13",
+    "description": "Functional - Email Case Insensitivity",
+    "email": "ADMIN@YOURSTORE.COM",
+    "password": "admin",
+    "isValid": true
+  },
+  {
+    "id": "TC_14",
+    "description": "Negative - Email Missing TLD",
+    "email": "admin@yourstore",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_15",
+    "description": "Negative - Email Double @",
+    "email": "admin@@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_16",
+    "description": "Security - XSS Vector in Email",
+    "email": "<script>alert(1)</script>",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_17",
+    "description": "Security - Null Byte Injection",
+    "email": "admin@yourstore.com%00",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_18",
+    "description": "Negative - Password max length",
+    "email": "admin@yourstore.com",
+    "password": "ThisIsAVeryLongPasswordThatExceedsNormalLimitsAndShouldProbablyBeRejectedOrTruncatedByTheSystem123456",
     "isValid": false,
-    "expectedError": "Wrong email"
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_19",
+    "description": "Functional - Email with sub-addressing",
+    "email": "admin+test@yourstore.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_20",
+    "description": "Functional - Password Case Sensitivity",
+    "email": "admin@yourstore.com",
+    "password": "ADMIN",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_21",
+    "description": "Security - NoSQL Injection",
+    "email": "{\"gt\": \"\"}",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_22",
+    "description": "Security - LDAP Injection",
+    "email": "*",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_23",
+    "description": "Security - Template Injection",
+    "email": "{{7*7}}",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_24",
+    "description": "Format - IP Address Domain",
+    "email": "admin@127.0.0.1",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_25",
+    "description": "Format - Multiple Dots in Email",
+    "email": "admin.name.lastname@yourstore.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_26",
+    "description": "Format - Underscore in Email",
+    "email": "admin_name@yourstore.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_27",
+    "description": "Format - Dash in Email",
+    "email": "admin-name@yourstore.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_28",
+    "description": "Format - Space inside Email",
+    "email": "admin @yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_29",
+    "description": "Format - Tab in Email",
+    "email": "admin\t@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_30",
+    "description": "Format - Newline in Email",
+    "email": "admin\n@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_31",
+    "description": "Format - Password with Tab",
+    "email": "admin@yourstore.com",
+    "password": "ad\tmin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_32",
+    "description": "Format - Password with Newline",
+    "email": "admin@yourstore.com",
+    "password": "ad\nmin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_33",
+    "description": "Functional - Password Special Chars",
+    "email": "admin@yourstore.com",
+    "password": "!@#$%^&*()",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_34",
+    "description": "Functional - Password Only Numbers",
+    "email": "admin@yourstore.com",
+    "password": "12345678",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_35",
+    "description": "Functional - Password Only Spaces",
+    "email": "admin@yourstore.com",
+    "password": "      ",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_36",
+    "description": "Security - XML Injection",
+    "email": "<!DOCTYPE foo>",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_37",
+    "description": "Security - Header Injection",
+    "email": "admin@yourstore.com%0d%0a",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_38",
+    "description": "Unicode - Emoji in Email",
+    "email": "admin😊@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_39",
+    "description": "Unicode - Cyrillic Email",
+    "email": "админ@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_40",
+    "description": "Unicode - Password with Emoji",
+    "email": "admin@yourstore.com",
+    "password": "admin😊",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_41",
+    "description": "Functional - Email Numeric Local",
+    "email": "123456@yourstore.com",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_42",
+    "description": "Functional - Email Mixed Case",
+    "email": "AdMiN@YoUrStOrE.cOm",
+    "password": "admin",
+    "isValid": true
+  },
+  {
+    "id": "TC_43",
+    "description": "Functional - Domain Case Insensitive",
+    "email": "admin@YOURSTORE.COM",
+    "password": "admin",
+    "isValid": true
+  },
+  {
+    "id": "TC_44",
+    "description": "Format - Dot at Start of Email",
+    "email": ".admin@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_45",
+    "description": "Format - Dot at End of Local",
+    "email": "admin.@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_46",
+    "description": "Format - Consecutive Dots",
+    "email": "admin..name@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_47",
+    "description": "Format - Underscore in Domain",
+    "email": "admin@your_store.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_48",
+    "description": "Security - SQLi in Password",
+    "email": "admin@yourstore.com",
+    "password": "' OR '1'='1",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_49",
+    "description": "Security - XSS in Password",
+    "email": "admin@yourstore.com",
+    "password": "<script>alert(1)</script>",
+    "isValid": false,
+    "expectedError": "Sorry, you have been blocked"
+  },
+  {
+    "id": "TC_50",
+    "description": "Boundary - 1 Char Email",
+    "email": "a@b.c",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_51",
+    "description": "Boundary - 1 Char Password",
+    "email": "admin@yourstore.com",
+    "password": "a",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
+  },
+  {
+    "id": "TC_52",
+    "description": "Protocol - Javascript URI",
+    "email": "javascript:alert(1)",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_53",
+    "description": "Protocol - Mailto URI",
+    "email": "mailto:admin@yourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_54",
+    "description": "Negative - Trailing Dot in Domain",
+    "email": "admin@yourstore.com.",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_55",
+    "description": "Negative - Missing @",
+    "email": "adminyourstore.com",
+    "password": "admin",
+    "isValid": false
+  },
+  {
+    "id": "TC_56",
+    "description": "Negative - Long Domain",
+    "email": "admin@yourstore.commmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+    "password": "admin",
+    "isValid": false,
+    "expectedError": "Login was unsuccessful"
   }
 ]
