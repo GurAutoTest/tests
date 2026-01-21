@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:excel": "npx playwright test tests/excelTest.spec.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
