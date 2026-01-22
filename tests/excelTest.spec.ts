@@ -9,7 +9,7 @@ let loginData = ExcelUtils.readExcelAsJson(excelFilePath);
 // Reset executed flag to ensure report only shows current run
 loginData.forEach(data => data.executed = false);
 
-test.describe.configure({ mode: 'serial' });
+// test.describe.configure({ mode: 'serial' });
 
 test.describe('Excel Data Driven Login Tests with Results', () => {
 

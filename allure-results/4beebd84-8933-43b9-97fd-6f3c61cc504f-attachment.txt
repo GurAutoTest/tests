@@ -1,0 +1,9 @@
+Results saved to Excel.
+
+--- MISMATCH REPORT ---
+Found 3 mismatches in the current run:
+ID: TC_01 | Name: Positive - Valid Login | Expected: Fail | Actual: Pass
+ID: TC_02 | Name: Negative - Invalid Password | Expected: Bnvn | Actual: Fail
+ID: TC_03 | Name: Negative - Invalid Email (Unregistered) | Expected: undefined | Actual: Fail
+-----------------------
+
