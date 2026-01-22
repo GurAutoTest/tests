@@ -10,11 +10,11 @@ export class LoginPage1 {
 
     constructor(page: Page) {
         this.page = page;
-        this.emailInput = page.locator('input[type="text"], input[type="email"]'); // Generic locator as placeholder/label might vary
+        this.emailInput = page.getByLabel('Email');
         this.enterPasswordButton = page.getByRole('button', { name: 'Enter Password' });
         this.getOTPButton = page.getByRole('button', { name: 'Get OTP' });
-        this.passwordInput = page.locator('input[type="password"]');
-        this.loginButton = page.getByRole('button', { name: 'Login' });
+        this.passwordInput = page.getByLabel('Password');
+        this.loginButton = page.getByRole('button', { name: 'Login', exact: true });
     }
 
     async navigate() {
