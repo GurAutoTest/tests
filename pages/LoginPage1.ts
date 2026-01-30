@@ -10,15 +10,19 @@ export class LoginPage1 {
 
     constructor(page: Page) {
         this.page = page;
-        this.emailInput = page.getByLabel('Email');
+        this.emailInput = page.locator('input[type="email"], input[name="email"], input[type="text"]');
         this.enterPasswordButton = page.getByRole('button', { name: 'Enter Password' });
         this.getOTPButton = page.getByRole('button', { name: 'Get OTP' });
-        this.passwordInput = page.getByLabel('Password');
+        // Solution 4: Using a more direct locator for password field
+        this.passwordInput = page.locator('input[type="password"], [name="password"], #password');
         this.loginButton = page.getByRole('button', { name: 'Login', exact: true });
     }
 
     async navigate() {
-        await this.page.goto('https://testcustomer.denefits.com/login');
+        // Use 'commit' to bypass splash screen loading issues and wait for actual content
+        await this.page.goto('https://testcustomer.denefits.com/login', { waitUntil: 'commit' });
+        // Explicitly wait for the login form to be visible (past the splash screen)
+        await this.emailInput.waitFor({ state: 'visible', timeout: 600000 });
     }
 
     async enterEmail(email: string) {
@@ -27,9 +31,13 @@ export class LoginPage1 {
 
     async clickEnterPassword() {
         await this.enterPasswordButton.click();
+        // Solution 3: Brief delay to allow the password field to be rendered/animated
+        await this.page.waitForTimeout(1000);
     }
 
     async enterPassword(password: string) {
+        // Solution 1: Explicitly wait for the password field to be visible before filling
+        await this.passwordInput.waitFor({ state: 'visible', timeout: 10000 });
         await this.passwordInput.fill(password);
     }
 

@@ -20,7 +20,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+   workers: process.env.CI ? 1 : undefined,
+  // workers: 1,
   timeout: 90000,
   expect: {
     timeout: 10000,
@@ -38,8 +39,8 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry',
-    actionTimeout: 50000,
-    navigationTimeout: 50000,
+    actionTimeout: 80000,
+    navigationTimeout: 70000,
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
   },
 

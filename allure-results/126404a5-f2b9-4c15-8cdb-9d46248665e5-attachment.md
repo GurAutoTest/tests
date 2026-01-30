@@ -1,0 +1,57 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - img [ref=e8]
+        - generic [ref=e9]:
+          - img [ref=e10] [cursor=pointer]
+          - heading "cust 100" [level=3] [ref=e11]
+          - paragraph [ref=e12]: gurdeep.singh+cust100@bridgingtech.com
+        - generic [ref=e13]:
+          - generic [ref=e19]:
+            - paragraph [ref=e20]: Edit EZ deferred
+            - paragraph [ref=e21]: "Contract ID: CUNQJPN79452"
+            - separator [ref=e22]
+            - paragraph [ref=e23]: $1,500.00
+            - paragraph [ref=e24]: Payment Plan Amount
+          - generic [ref=e26] [cursor=pointer]:
+            - paragraph [ref=e27]: blacklabelbusiness
+            - paragraph [ref=e28]: "Contract ID: CUYXPPN77872"
+            - separator [ref=e29]
+            - paragraph [ref=e30]: $1,200.00
+            - paragraph [ref=e31]: Payment Plan Amount
+        - paragraph [ref=e32] [cursor=pointer]: + View More Contracts
+      - generic [ref=e33]:
+        - generic [ref=e37]:
+          - heading "Report a Problem" [level=4] [ref=e38]:
+            - button "Report a Problem" [ref=e39] [cursor=pointer]
+          - generic [ref=e40]:
+            - banner:
+              - generic [ref=e42]:
+                - button "7" [ref=e46] [cursor=pointer]:
+                  - img [ref=e47]
+                  - generic [ref=e48]: "7"
+                - button [ref=e49] [cursor=pointer]:
+                  - img [ref=e50]
+        - paragraph [ref=e52]: Loading...
+    - generic [ref=e56] [cursor=pointer]:
+      - img "en" [ref=e57]
+      - text: en
+  - generic [ref=e69] [cursor=pointer]:
+    - img "en" [ref=e70]
+    - text: en
+  - iframe [ref=e72]:
+    
+  - generic [ref=e73]:
+    - iframe [ref=e74]:
+      - generic [active] [ref=f10e1]:
+        - generic "Intercom":
+          - region "Intercom messenger":
+            - button "Open Intercom Messenger, 1 new message" [ref=f10e2] [cursor=pointer]:
+              - img [ref=f10e4]
+              - img [ref=f10e7]
+    - generic [ref=e76]: "1"
+```

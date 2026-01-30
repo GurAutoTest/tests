@@ -1,0 +1,5 @@
+Failed to parse amount for locator: TimeoutError: locator.waitFor: Timeout 5000ms exceeded.
+Call log:
+  - waiting for getByText(/^Amount Paid$/i).locator('..').getByText('$').first() to be visible
+
+Dynamic Values -> Paid: 0, Due: 1760.01
