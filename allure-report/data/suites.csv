@@ -1,4 +1,5 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","25400","Verify Common UI Elements (Buttons/Logo)","chromium","2026-01-28","failed","2026-01-28","Dashboard Dynamic Tests > User: Cust 100","Dashboard.spec.ts","",""
-"","19318","Verify Payment calculations and logic","chromium","2026-01-28","passed","2026-01-28","Dashboard Dynamic Tests > User: Cust 100","Dashboard.spec.ts","",""
-"","14584","Verify Profile Match","chromium","2026-01-28","passed","2026-01-28","Dashboard Dynamic Tests > User: Cust 100","Dashboard.spec.ts","",""
+"","39003","Verify navigation back to dashboard","chromium","2026-01-31","passed","2026-01-31","Contract Details Page Verifications","ContractDetails.spec.ts","",""
+"","39282","Verify Action buttons on contract details page","chromium","2026-01-31","passed","2026-01-31","Contract Details Page Verifications","ContractDetails.spec.ts","",""
+"","38710","Verify Summary card data presence","chromium","2026-01-31","passed","2026-01-31","Contract Details Page Verifications","ContractDetails.spec.ts","",""
+"","34486","Verify Contract details page structure and visibility","chromium","2026-01-31","passed","2026-01-31","Contract Details Page Verifications","ContractDetails.spec.ts","",""

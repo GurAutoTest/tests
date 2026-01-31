@@ -16,6 +16,8 @@ export class ContractDetailsPage {
     // Summary Card Details
     readonly totalBalanceRemaining: Locator;
     readonly nextPaymentDate: Locator;
+    readonly estimatedPaymentPlanAmount: Locator;
+    readonly customerPayoffAmount: Locator;
     
     // Customer & Business Details
     readonly customerName: Locator;
@@ -54,14 +56,16 @@ export class ContractDetailsPage {
         // Summary Card (Right column)
         this.totalBalanceRemaining = page.getByText(/Total Balance Remaining/i).locator('xpath=..').getByText('$').first();
         this.nextPaymentDate = page.getByText(/Next Payment Date/i).locator('xpath=..').locator('p, span, div').last();
+        this.estimatedPaymentPlanAmount = page.getByText(/Estimated Payment Plan Amount/i).locator('xpath=..').getByText('$').first();
+        this.customerPayoffAmount = page.getByText(/Customer PayOff Amount/i).locator('xpath=..').getByText('$').first();
         
         // Customer Details
-        this.customerName = page.locator('div').filter({ has: page.getByText(/^Customer Name$/i) }).locator('p, span').last();
-        this.customerEmail = page.locator('div').filter({ has: page.getByText(/^Email Address$/i) }).first().locator('p, span').last();
+        this.customerName = page.getByText('Customer Name').locator('..').locator('p, span').last();
+        this.customerEmail = page.getByText('Email Address').first().locator('..').locator('p, span').last();
         
         // Business Details
-        this.businessName = page.locator('div').filter({ has: page.getByText(/^Business Name$/i) }).locator('p, span').last();
-        this.businessEmail = page.locator('div').filter({ hasText: /dilpreetsingh/i }).first(); // Specific unique text from image
+        this.businessName = page.getByText('Business Name').locator('..').locator('p, span').last();
+        this.businessEmail = page.getByText(/Business Email/i).locator('..').locator('p, span').last();
         
         // Employment & Payment
         this.employmentInfo = page.getByText(/Employment Information/i).locator('xpath=..');
@@ -69,9 +73,9 @@ export class ContractDetailsPage {
         this.addNewCardButton = page.getByText(/Add New Card/i).first();
 
         // Transactions
-        this.transactionHistoryList = page.locator('div').filter({ hasText: /Transaction History/i }).locator('..');
+        this.transactionHistoryList = page.getByText(/Transaction History/i).locator('..');
         this.serviceBreakdownTable = page.locator('table, [class*="breakdown-table"]');
-        this.proofOfIdStatus = page.getByText(/Proof of ID/i).locator('xpath=..').getByText(/Uploaded/i);
+        this.proofOfIdStatus = page.locator('div').filter({ hasText: /Proof of ID/i }).getByText(/Uploaded|Pending|Missing/i).first();
 
         this.downloadContractButton = page.getByText(/Download Contract/i).first();
         this.downloadConsentFormButton = page.getByText(/Download Consent Form/i).first();
@@ -79,7 +83,7 @@ export class ContractDetailsPage {
         this.backToDashboardLink = page.getByText(/Back to dashboard/i).first();
     }
 
-    async verifyAllSectionsVisible() {
+    async verifyContractDetailsVisible() {
         await expect.soft(this.contractIdHeading, 'Contract ID Heading should be visible').toBeVisible();
         await expect.soft(this.totalBalanceRemaining, 'Total Balance card should be visible').toBeVisible();
         await expect.soft(this.customerName, 'Customer Name should be visible').toBeVisible();

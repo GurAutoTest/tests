@@ -4,7 +4,6 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { ContractDetailsPage } from '../pages/ContractDetailsPage';
 
 test.describe('Contract Details Page Verifications', () => {
-    test.describe.configure({ mode: 'serial' });
     let loginPage: LoginPage1;
     let dashboardPage: DashboardPage;
     let contractDetailsPage: ContractDetailsPage;
@@ -27,6 +26,7 @@ test.describe('Contract Details Page Verifications', () => {
         // 2. Navigate to Contract Details
         await page.waitForTimeout(3000); // Give dashboard time to load completely
         await dashboardPage.clickViewDetails();
+        await page.waitForTimeout(2000); // Give contract details page time to load its dynamic data
     });
 
     test('Verify Contract details page structure and visibility', async () => {

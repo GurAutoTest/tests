@@ -1,3 +1,5 @@
+Attempting to click View Details button...
+View Details button clicked.
 Contract Summary Details: {
   balance: '$1,760.01',
   nextDate: '12/19/2025',
