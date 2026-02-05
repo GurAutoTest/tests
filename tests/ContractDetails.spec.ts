@@ -2,11 +2,13 @@ import { test, expect } from '@playwright/test';
 import { LoginPage1 } from '../pages/LoginPage1';
 import { DashboardPage } from '../pages/DashboardPage';
 import { ContractDetailsPage } from '../pages/ContractDetailsPage';
+import { Calculations} from '../pages/Calculations';
 
 test.describe('Contract Details Page Verifications', () => {
     let loginPage: LoginPage1;
     let dashboardPage: DashboardPage;
     let contractDetailsPage: ContractDetailsPage;
+    let calculations: Calculations;
 
     const user = { 
         email: 'gurdeep.singh+cust100@bridgingtech.com', 
@@ -18,6 +20,7 @@ test.describe('Contract Details Page Verifications', () => {
         loginPage = new LoginPage1(page);
         dashboardPage = new DashboardPage(page);
         contractDetailsPage = new ContractDetailsPage(page);
+        calculations = new Calculations(page);
 
         // 1. Login
         await loginPage.navigate();
@@ -43,6 +46,18 @@ test.describe('Contract Details Page Verifications', () => {
         
         expect(details.balance).toContain('$');
         expect(details.planAmount).toContain('$');
+    });
+
+    test('Verify all payment values from grid', async () => {
+        await contractDetailsPage.getAllPaymentDetails();
+    });
+
+    test('Verify Contract calculations and logic', async () => {
+        await contractDetailsPage.verifyCalculationswrong();
+    });
+
+    test('Verify Payoff calculations', async () => {
+        await calculations.verifyPayoffCalculations();
     });
 
     test('Verify navigation back to dashboard', async ({ page }) => {

@@ -1,0 +1,3 @@
+Attempting to click View Details button...
+View Details button clicked.
+Verifying Calculations -> Balance: 1760.01, Payoff: 1622.5, Plan: 1500

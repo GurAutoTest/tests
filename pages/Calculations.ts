@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 
-export class ContractDetailsPage {
+export class Calculations {
     readonly page: Page;
 
     // --- Locators ---
@@ -114,27 +114,9 @@ export class ContractDetailsPage {
         this.backToDashboardLink = page.getByText(/Back to dashboard/i).first();
     }
 
-    async verifyContractDetailsVisible() {
-        await expect.soft(this.contractIdHeading, 'Contract ID Heading should be visible').toBeVisible();
-        await expect.soft(this.totalBalanceRemaining, 'Total Balance card should be visible').toBeVisible();
-        await expect.soft(this.customerName, 'Customer Name should be visible').toBeVisible();
-        await expect.soft(this.businessName, 'Business Name should be visible').toBeVisible();
-        await expect.soft(this.addNewCardButton, 'Add New Card button should be visible').toBeVisible();
-        await expect.soft(this.proofOfIdStatus, 'Proof of ID Status should be visible').toBeVisible();
-    }
+    
+   
 
-    async verifyTransactionPresence() {
-        // Checking if we have at least one transaction entry as seen in image ($144.00)
-        const firstEntry = this.page.getByText('$144.00');
-        await expect.soft(firstEntry, 'Transaction entry of $144.00 should be visible').toBeVisible();
-    }
-
-    async verifyActionButtons() {
-        await expect.soft(this.makePaymentButton, 'Make Payment button should be visible').toBeVisible();
-        await expect.soft(this.payoffContractButton, 'PayOff Contract button should be visible').toBeVisible();
-        await expect.soft(this.changePaymentDateButton, 'Change Payment Date button should be visible').toBeVisible();
-        await expect.soft(this.makePartialPaymentButton, 'Make Partial Payment button should be visible').toBeVisible();
-    }
 
     // --- Calculation Helper ---
     async getNumericAmount(locator: Locator): Promise<number> {
@@ -149,61 +131,89 @@ export class ContractDetailsPage {
         }
     }
 
-    async verifyCalculationswrong() {
+    // async verifyCalculations() {
+    //     const balance = await this.getNumericAmount(this.totalBalanceRemaining);
+    //     const payoff = await this.getNumericAmount(this.customerPayoffAmount);
+    //     const planAmount = await this.getNumericAmount(this.estimatedPaymentPlanAmount);
+
+    //     console.log(`Verifying Calculations -> Balance: ${balance}, Payoff: ${payoff}, Plan: ${planAmount}`);
+
+    //     // 1. Basic Sanity: Amounts should be positive
+    //     expect.soft(balance, 'Total Balance should be greater than 0').toBeGreaterThan(0);
+    //     expect.soft(payoff, 'Payoff Amount should be greater than 0').toBeGreaterThan(0);
+        
+    //     // 2. Logic: Payoff amount is typically <= Total Balance (due to early payoff benefits)
+    //     expect.soft(payoff, 'Customer Payoff Amount should be less than or equal to Total Balance Remaining').toBeLessThanOrEqual(balance);
+
+    //     // 3. Logic: If balance is > 0, plan amount should also be > 0 (usually)
+    //     expect.soft(planAmount, 'Estimated Plan Amount should be greater than 0').toBeGreaterThan(0);
+    // }
+
+
+    async verifyPayoffCalculations() {
+        // Capturing all fields as variables
         const balance = await this.getNumericAmount(this.totalBalanceRemaining);
         const payoff = await this.getNumericAmount(this.customerPayoffAmount);
         const planAmount = await this.getNumericAmount(this.estimatedPaymentPlanAmount);
+        const nextPaymentDate = await this.nextPaymentDate.innerText();
+        const estServiceAmount = await this.getNumericAmount(this.estimatedServiceAmount);
+        const totalPayments = await this.getNumericAmount(this.totalPayments);
+        const remainingPayments = await this.getNumericAmount(this.remainingPayments);
+        const missingPayments = await this.getNumericAmount(this.missingPayments);
+        const lateFeesCount = await this.getNumericAmount(this.lateFeesCount);
+        const lateFees = await this.getNumericAmount(this.lateFees);
+        const recurringAmount = await this.getNumericAmount(this.recurringAmount);
+        const downPaymentAmount = await this.getNumericAmount(this.downPaymentAmount);
+        const interestRate = await this.getNumericAmount(this.interestRate);
+        const fixedDenefitsFee = await this.getNumericAmount(this.fixedDenefitsFee);
+        const enrollmentDateStr = await this.enrollmentDate.innerText();
+        const donatedAmount = await this.getNumericAmount(this.donatedAmount);
 
-        console.log(`Verifying Calculations -> Balance: ${balance}, Payoff: ${payoff}, Plan: ${planAmount}`);
-
-        // 1. Basic Sanity: Amounts should be positive
-        expect.soft(balance, 'Total Balance should be greater than 0').toBeGreaterThan(0);
-        expect.soft(payoff, 'Payoff Amount should be greater than 0').toBeGreaterThan(0);
+        // Date extraction for month
+        const dateObj = new Date(enrollmentDateStr);
+        const my_enrollmentMonth = dateObj.getMonth() + 1; // 1-12
         
-        // 2. Logic: Payoff amount is typically <= Total Balance (due to early payoff benefits)
-        expect.soft(payoff, 'Customer Payoff Amount should be less than or equal to Total Balance Remaining').toBeLessThanOrEqual(balance);
+        const my_principalAmount = planAmount / totalPayments;
+        const my_payoffAmount = my_principalAmount * remainingPayments + (lateFeesCount * lateFees);
+        const my_missingPayments = totalPayments - remainingPayments;
+        const my_downPaymentAmount = estServiceAmount - planAmount;       
+        
+        let my_interestRate;
+        if (totalPayments < 12) {
+            my_interestRate = 19.90; 
+        } else {
+            my_interestRate = 16.99;
+        }
 
-        // 3. Logic: If balance is > 0, plan amount should also be > 0 (usually)
-        expect.soft(planAmount, 'Estimated Plan Amount should be greater than 0').toBeGreaterThan(0);
+        const my_recurringAmount = (planAmount * my_interestRate) / totalPayments;
+        const my_totalBalanceRemaining = (recurringAmount * remainingPayments) + (lateFeesCount * lateFees);
+        // Calculate Next Payment Date (Enrollment Date + 1 Month)
+        const nextDateObj = new Date(dateObj);
+        nextDateObj.setMonth(nextDateObj.getMonth() + 1);
+        const my_nextPaymentDate = nextDateObj.toLocaleDateString(); 
+
+
+
+        console.log(`--- Calculated Expected Values ---`);
+        console.log(`Enrollment Month: ${my_enrollmentMonth}`);
+        console.log(`Calculated Principal: ${my_principalAmount}`);
+        console.log(`Calculated Payoff: ${my_payoffAmount}`);
+        console.log(`Calculated Recurring: ${my_recurringAmount}`);
+        console.log(`Expected Next Payment Date: ${my_nextPaymentDate}`);
+        console.log(`---------------------------------`);
+
+      
+        
+
+    
     }
 
 
-    async getSummaryDetails() {
-        const details = {
-            balance: await this.totalBalanceRemaining.innerText(),
-            nextDate: await this.nextPaymentDate.innerText(),
-            planAmount: await this.estimatedPaymentPlanAmount.innerText(),
-            payoffAmount: await this.customerPayoffAmount.innerText()
-        };
-        console.log('Contract Summary Details:', details);
-        return details;
-    }
 
-    async getAllPaymentDetails() {
-        const details = {
-            "Total Balance Remaining": await this.totalBalanceRemaining.innerText(),
-            "Next Payment Date": await this.nextPaymentDate.innerText(),
-            "Estimated Service Amount": await this.estimatedServiceAmount.innerText(),
-            "Estimated Payment Plan Amount": await this.estimatedPaymentPlanAmount.innerText(),
-            "Total Payments": await this.totalPayments.innerText(),
-            "Remaining Payments": await this.remainingPayments.innerText(),
-            "Missing Payments": await this.missingPayments.innerText(),
-            "Late Fees Count": await this.lateFeesCount.innerText(),
-            "Late Fees": await this.lateFees.innerText(),
-            "Recurring Amount": await this.recurringAmount.innerText(),
-            "Down Payment Amount": await this.downPaymentAmount.innerText(),
-            "Interest Rate": await this.interestRate.innerText(),
-            "Fixed Denefits Fee": await this.fixedDenefitsFee.innerText(),
-            "Customer Payoff Amount": await this.customerPayoffAmount.innerText(),
-            "Enrollment Date": await this.enrollmentDate.innerText(),
-            "Donated Amount": await this.donatedAmount.innerText()
-        };
-        console.log('\n--- ALL PAYMENT VALUES ---');
-        console.table(details);
-        return details;
-    }
 
-    async goBackToDashboard() {
-        await this.backToDashboardLink.click();
-    }
+
+
+    
+
+   
 }

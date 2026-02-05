@@ -1,0 +1,24 @@
+Attempting to click View Details button...
+View Details button clicked.
+
+--- ALL PAYMENT VALUES ---
+┌───────────────────────────────┬───────────────────┐
+│ (index)                       │ Values            │
+├───────────────────────────────┼───────────────────┤
+│ Total Balance Remaining       │ '$1,760.01'       │
+│ Next Payment Date             │ '12/19/2025'      │
+│ Estimated Service Amount      │ '$1,500.00'       │
+│ Estimated Payment Plan Amount │ '$1,500.00'       │
+│ Total Payments                │ '12'              │
+│ Remaining Payments            │ '12'              │
+│ Missing Payments              │ '2'               │
+│ Late Fees Count               │ '2'               │
+│ Late Fees                     │ '25 * 2'          │
+│ Recurring Amount              │ '$138.35 + $4.15' │
+│ Down Payment Amount           │ '$0.00'           │
+│ Interest Rate                 │ ''                │
+│ Fixed Denefits Fee            │ '$30'             │
+│ Customer Payoff Amount        │ '$1,622.50'       │
+│ Enrollment Date               │ '04/11/2024'      │
+│ Donated Amount                │ '0.00'            │
+└───────────────────────────────┴───────────────────┘

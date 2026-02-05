@@ -1,0 +1,261 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - img [ref=e8] [cursor=pointer]
+        - generic [ref=e9]:
+          - img [ref=e10] [cursor=pointer]
+          - heading "cust 100" [level=3] [ref=e11]
+          - paragraph [ref=e12]: gurdeep.singh+cust100@bridgingtech.com
+        - generic [ref=e19]:
+          - paragraph [ref=e20]: Edit EZ deferred
+          - paragraph [ref=e21]: "Contract ID: CUNQJPN79452"
+          - separator [ref=e22]
+          - paragraph [ref=e23]: $1,500.00
+          - paragraph [ref=e24]: Payment Plan Amount
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e29]:
+            - heading "Report a Problem" [level=4] [ref=e30]:
+              - button "Report a Problem" [ref=e31] [cursor=pointer]
+            - generic [ref=e32]:
+              - banner:
+                - generic [ref=e34]:
+                  - button "7" [ref=e38] [cursor=pointer]:
+                    - img [ref=e39]
+                    - generic [ref=e40]: "7"
+                  - button [ref=e41] [cursor=pointer]:
+                    - img [ref=e42]
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - img
+            - paragraph [ref=e46] [cursor=pointer]: Back to dashboard
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - paragraph [ref=e49]: "Contract ID: CUNQJPN79452"
+              - generic [ref=e50]: ACTIVE
+            - generic [ref=e51]:
+              - button "Make Payment" [ref=e53] [cursor=pointer]
+              - button "PayOff Contract" [ref=e55] [cursor=pointer]
+              - button "Change Payment Date" [ref=e56] [cursor=pointer]
+              - button "Make Partial Payment" [ref=e57] [cursor=pointer]
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: Customer Details
+              - generic [ref=e62]:
+                - generic [ref=e63]:
+                  - paragraph [ref=e64]: Customer Name
+                  - paragraph [ref=e65]: cust 100
+                - generic [ref=e66]:
+                  - paragraph [ref=e67]: Customer Code
+                  - paragraph [ref=e68]: CUZY676
+                - generic [ref=e69]:
+                  - paragraph [ref=e70]: Phone
+                  - paragraph [ref=e71]: +1-480-719-4661
+                - generic [ref=e72]:
+                  - paragraph [ref=e73]: Email Address
+                  - paragraph [ref=e74]: gurdeep.singh+cust100@bridgingtech.com
+                - generic [ref=e75]:
+                  - paragraph [ref=e76]: Date of birth
+                  - paragraph [ref=e77]: 05/05/1995
+                - generic [ref=e78]:
+                  - paragraph [ref=e79]: Address
+                  - paragraph [ref=e80]: test, Washington, DC, 20010
+              - paragraph [ref=e81]: Business Details
+              - generic [ref=e82]:
+                - generic [ref=e83]:
+                  - paragraph [ref=e84]: Business Name
+                  - paragraph [ref=e85]: Edit EZ deferred
+                - generic [ref=e86]:
+                  - paragraph [ref=e87]: Phone
+                  - paragraph [ref=e88]: +1-969-431-1164
+                - generic [ref=e89]:
+                  - paragraph [ref=e90]: Email Address
+                  - paragraph [ref=e91]: dilpreetsingh.dev+ect1@bridgingtech.com
+              - paragraph [ref=e92]: Employment Details
+              - generic [ref=e93]:
+                - generic [ref=e95]:
+                  - paragraph [ref=e96]: Employment Information
+                  - paragraph [ref=e97]: Not Applicable
+                - generic [ref=e99]:
+                  - paragraph [ref=e100]: Payback Sources
+                  - paragraph [ref=e101]: Acquaintance
+            - generic [ref=e102]:
+              - generic [ref=e103]:
+                - paragraph [ref=e105]: Customer Payment Methods
+                - paragraph [ref=e107] [cursor=pointer]:
+                  - generic [ref=e108]: 
+                  - text: Change Payment Method
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - paragraph [ref=e112]:
+                    - img [ref=e113]
+                    - text: "**** **** **** 1111"
+                  - paragraph [ref=e115]: Default Method
+                - paragraph [ref=e118]:
+                  - img
+                  - text: "**** **** **** 0446"
+                - paragraph [ref=e122]:
+                  - img [ref=e123]
+                  - text: "**** **** **** 1111"
+                - paragraph [ref=e127]:
+                  - img
+                  - text: "**** **** **** 1111"
+                - paragraph [ref=e131]:
+                  - img [ref=e132]
+                  - text: "**** **** **** 1111"
+                - paragraph [ref=e136]:
+                  - img
+                  - text: "**** **** **** 1111"
+                - paragraph [ref=e140]:
+                  - img [ref=e141]
+                  - text: "**** **** **** 1111"
+                - paragraph [ref=e145]:
+                  - img
+                  - text: "**** **** **** 1111"
+                - paragraph [ref=e149]:
+                  - img [ref=e150]
+                  - text: "**** **** **** 1111"
+                - generic [ref=e152]:
+                  - paragraph [ref=e154]:
+                    - img
+                    - text: "**** **** 6789"
+                  - paragraph [ref=e156] [cursor=pointer]: Reauthentication Required
+                - paragraph [ref=e159]:
+                  - img [ref=e160]
+                  - text: "**** **** **** 0341"
+                - paragraph [ref=e164]:
+                  - img
+                  - text: "**** **** **** 4242"
+              - button "Add New Card" [ref=e166] [cursor=pointer]
+            - generic [ref=e167]:
+              - paragraph [ref=e168]: Transaction History
+              - table [ref=e170]:
+                - row "$144.00 04/11/2024 Denefits Fee + Upfront Payment Paid Visa 1111" [ref=e171]:
+                  - cell "$144.00 04/11/2024" [ref=e172]:
+                    - paragraph [ref=e173]: $144.00
+                    - paragraph [ref=e174]: 04/11/2024
+                  - cell "Denefits Fee + Upfront Payment" [ref=e175]:
+                    - paragraph [ref=e176]: Denefits Fee + Upfront Payment
+                    - paragraph [ref=e177]
+                  - cell "Paid Visa 1111" [ref=e178]:
+                    - paragraph [ref=e179]: Paid
+                    - paragraph [ref=e180]: Visa 1111
+                - row "$30.67 04/11/2024 Upfront Payment Paid Visa 1111" [ref=e181]:
+                  - cell "$30.67 04/11/2024" [ref=e182]:
+                    - paragraph [ref=e183]: $30.67
+                    - paragraph [ref=e184]: 04/11/2024
+                  - cell "Upfront Payment" [ref=e185]:
+                    - paragraph [ref=e186]: Upfront Payment
+                    - paragraph [ref=e187]
+                  - cell "Paid Visa 1111" [ref=e188]:
+                    - paragraph [ref=e189]: Paid
+                    - paragraph [ref=e190]: Visa 1111
+            - generic [ref=e191]:
+              - paragraph [ref=e192]: Customer's Signature
+              - img [ref=e193]
+              - paragraph [ref=e194]: Contract made in Office on 04/11/2024 at 03:15 PM
+              - paragraph [ref=e195]: "F : Flat Interest, C : Compound Interest"
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - generic [ref=e198]:
+                - generic [ref=e199]:
+                  - paragraph [ref=e200]: Total Balance Remaining
+                  - paragraph [ref=e201]: $1,760.01
+                - generic [ref=e202]:
+                  - paragraph [ref=e203]: Next Payment Date
+                  - paragraph [ref=e204]: 12/19/2025
+              - generic [ref=e205]:
+                - generic [ref=e206]:
+                  - paragraph [ref=e207]: Estimated Service Amount
+                  - paragraph [ref=e208]: $1,500.00
+                - generic [ref=e209]:
+                  - paragraph [ref=e210]: Estimated Payment Plan Amount
+                  - paragraph [ref=e211]: $1,500.00
+                - generic [ref=e212]:
+                  - paragraph [ref=e213]: Total Payments
+                  - paragraph [ref=e214]: "12"
+                - generic [ref=e215]:
+                  - paragraph [ref=e216]: Remaining Payments
+                  - paragraph [ref=e217]: "12"
+                - generic [ref=e218]:
+                  - paragraph [ref=e219]: Missing Payments
+                  - paragraph [ref=e220]: "2"
+                - generic [ref=e221]:
+                  - paragraph [ref=e222]: Late Fees Count
+                  - paragraph [ref=e223]: "2"
+                - generic [ref=e224]:
+                  - paragraph [ref=e225]: Late Fees
+                  - paragraph [ref=e226]: 25 * 2
+                - generic [ref=e227]:
+                  - paragraph [ref=e228]: Recurring Amount
+                  - paragraph [ref=e229]: $138.35 + $4.15
+                - generic [ref=e230]:
+                  - paragraph [ref=e231]: Down Payment Amount
+                  - paragraph [ref=e232]: $0.00
+                - generic [ref=e233]:
+                  - paragraph [ref=e234]: Interest Rate
+                  - paragraph [ref=e235]:
+                    - text: 19.9%
+                    - superscript
+                - generic [ref=e236]:
+                  - paragraph [ref=e237]: Fixed Denefits Fee
+                  - paragraph [ref=e238]: $30
+                - generic [ref=e239]:
+                  - paragraph [ref=e240]: Customer Payoff Amount
+                  - paragraph [ref=e241]: $1,622.50
+                - generic [ref=e242]:
+                  - paragraph [ref=e243]: Enrollment Date
+                  - paragraph [ref=e244]: 04/11/2024
+                - generic [ref=e245]:
+                  - paragraph [ref=e246]: Donated Amount
+                  - paragraph [ref=e247]: "0.00"
+                - generic [ref=e248]:
+                  - paragraph [ref=e249]: Turn off Email payment reminder
+                  - checkbox [checked] [ref=e251]
+                - generic [ref=e252]:
+                  - paragraph [ref=e253]: Turn off SMS payment reminder
+                  - checkbox [checked] [ref=e255]
+            - generic [ref=e257]:
+              - paragraph [ref=e259]: Service Cost Breakdown
+              - table [ref=e261]:
+                - row "S.No. Service Price" [ref=e262]:
+                  - columnheader "S.No." [ref=e263]:
+                    - paragraph [ref=e264]: S.No.
+                  - columnheader "Service" [ref=e265]:
+                    - paragraph [ref=e266]: Service
+                  - columnheader "Price" [ref=e267]:
+                    - paragraph [ref=e268]: Price
+                - row "1 dummy service $1,500.00" [ref=e269]:
+                  - cell "1" [ref=e270]
+                  - cell "dummy service" [ref=e271]
+                  - cell "$1,500.00" [ref=e272]
+            - generic [ref=e274]:
+              - paragraph [ref=e276]: Proof of ID
+              - paragraph [ref=e278]: Uploaded
+        - generic [ref=e279]:
+          - button "Download Contract" [ref=e280] [cursor=pointer]
+          - button "Download Consent Form" [ref=e281] [cursor=pointer]
+          - button "Generate Contribution Link" [ref=e282] [cursor=pointer]
+    - generic [ref=e286] [cursor=pointer]:
+      - img "en" [ref=e287]
+      - text: en
+  - generic [ref=e292] [cursor=pointer]:
+    - img "en" [ref=e293]
+    - text: en
+  - iframe [ref=e295]:
+    
+  - generic [ref=e296]:
+    - iframe [ref=e297]:
+      - generic [active] [ref=f10e1]:
+        - generic "Intercom":
+          - region "Intercom messenger":
+            - button "Open Intercom Messenger, 1 new message" [ref=f10e2] [cursor=pointer]:
+              - img [ref=f10e4]
+              - img [ref=f10e7]
+    - generic [ref=e299]: "1"
+```

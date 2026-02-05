@@ -6,10 +6,8 @@
   "scripts": {
     "test:excel": "npx playwright test tests/excelTest.spec.ts",
     "test:lp1": "rm -rf allure-results && npx playwright test tests/LoginPage1.spec.ts",
-
     "test:dashboard": "rm -rf allure-results && npx playwright test tests/Dashboard.spec.ts",
     "test:getreport": "npx allure generate allure-results --clean -o allure-report && npx allure open allure-report",
-
     "test:contractdetails": "rm -rf allure-results && npx playwright test tests/ContractDetails.spec.ts"
   },
   "keywords": [],
@@ -23,8 +21,8 @@
     "allure-playwright": "^3.4.5"
   },
   "dependencies": {
+    "node-xlsx": "^0.24.0",
     "playwright-extra": "^4.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "xlsx": "^0.18.5"
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }
