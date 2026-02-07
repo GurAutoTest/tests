@@ -83,8 +83,13 @@ export class Calculations {
         
         this.downPaymentAmount = page.getByText(/Down Payment Amount/i).locator('xpath=..').locator('p, span, div').last();
         // Direct ID is most reliable, fallback to specific P tag if ID missing
-        this.interestRate = page.getByLabel('Interest Rate');
+        // this.interestRate = page.getByLabel('Interest Rate');
         
+
+        this.interestRate = page.locator('#interest_rate_to_show, p:has-text("Interest Rate") + p').first();
+        
+
+
         this.fixedDenefitsFee = page.getByText(/Fixed Denefits Fee/i).locator('xpath=..').locator('p, span, div').last();
         this.customerPayoffAmount = page.getByText(/Customer Payoff Amount/i).locator('xpath=..').locator('p, span, div').last();
         
@@ -186,14 +191,59 @@ export class Calculations {
         // const my_enrollmentMonth = dateObj.getMonth() + 1; // 1-12
 
         const my_principalAmount = planAmount / totalPayments;
+        // let my_interestRate;
+        // if (totalPayments >= 12) {
+        //     my_interestRate = 1.1990; 
+        // } else {
+        //     my_interestRate = 16.99;
+        // }
         let my_interestRate;
-        if (totalPayments >= 12) {
-            my_interestRate = 19.90; 
+
+        if (totalPayments < 13) {
+            my_interestRate = 1.1990;   // 13 toh niche
         } else {
-            my_interestRate = 16.99;
+            my_interestRate = 16.99;   // 13 ya us toh vadh
         }
 
-        let my_recurringAmount = (planAmount * my_interestRate) / totalPayments;
+
+        let my_recurringAmount;
+        
+        console.log(`\n--- Recurring Amount Calculation Steps ---`);
+        console.log(`Plan Amount: ${planAmount}`);
+        console.log(`Total Payments: ${totalPayments}`);
+        console.log(`Interest Rate Used: ${my_interestRate}`);
+
+        if (totalPayments < 13) {
+            console.log(`Logic: Total Payments < 13 (Using Multiplier Logic)`);
+            const totalWithInterest = planAmount * my_interestRate;
+            console.log(`Step 1: Plan Amount * Interest Rate (${planAmount} * ${my_interestRate}) = ${totalWithInterest}`);
+            
+            my_recurringAmount = totalWithInterest / totalPayments;
+            console.log(`Step 2: Total / Total Payments (${totalWithInterest} / ${totalPayments}) = ${my_recurringAmount}`);
+        } else {
+            console.log(`Logic: Total Payments >= 13 (Using Compound/Exponential Logic)`);
+            
+            const rateFactor = 1 + (my_interestRate / 1200);
+            console.log(`Step 1: Rate Factor (1 + ${my_interestRate}/1200) = ${rateFactor}`);
+            
+            const compoundFactor = Math.pow(rateFactor, totalPayments); // equivalent to ** totalPayments
+            console.log(`Step 2: Compound Factor (${rateFactor} ^ ${totalPayments}) = ${compoundFactor}`);
+            
+            const totalWithCompoundInterest = planAmount * compoundFactor;
+            console.log(`Step 3: Plan Amount * Compound Factor (${planAmount} * ${compoundFactor}) = ${totalWithCompoundInterest}`);
+            
+            my_recurringAmount = totalWithCompoundInterest / (totalPayments+1);
+            console.log(`Step 4: Total / Total Payments (${totalWithCompoundInterest} / ${totalPayments}) = ${my_recurringAmount}`);
+        }
+        
+        // Round recurring amount to 2 decimal places
+        my_recurringAmount = parseFloat(my_recurringAmount.toFixed(2));
+        console.log(`Rounded Recurring Amount: ${my_recurringAmount}`);
+        
+        console.log(`------------------------------------------\n`);
+
+
+
         const my_remainingPayments = remainingPayments;
         let my_payoffAmount;
         if (missingPayments > 0) {
@@ -203,11 +253,16 @@ export class Calculations {
             /////actiive case
             my_payoffAmount = my_principalAmount * my_remainingPayments;
         }
+        
+        // Round payoff amount
+        my_payoffAmount = parseFloat(my_payoffAmount.toFixed(2));
+        
         const my_missingPayments = totalPayments - my_remainingPayments;
         const my_downPaymentAmount = estServiceAmount - planAmount;       
         
        
-        const my_totalBalanceRemaining = (recurringAmount * my_remainingPayments) + (lateFeesCount * lateFees);
+        let my_totalBalanceRemaining = (recurringAmount * my_remainingPayments) + (lateFeesCount * lateFees);
+        my_totalBalanceRemaining = parseFloat(my_totalBalanceRemaining.toFixed(2));
 
 
 

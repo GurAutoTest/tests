@@ -11,7 +11,7 @@ test.describe('Contract Details Page Verifications', () => {
     let calculations: Calculations;
 
     const user = { 
-        email: 'gurdeep.singh+cust100@bridgingtech.com', 
+        email: 'gurdeep.singh+cust101@bridgingtech.com', 
         password: '123123', 
         expectedName: 'Cust 100' 
     };
