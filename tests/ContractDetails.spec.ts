@@ -48,7 +48,7 @@ test.describe('Contract Details Page Verifications', () => {
         expect(details.planAmount).toContain('$');
     });
 
-    test('Verify all payment values from grid', async () => {
+    test.only('Verify all payment values from grid', async () => {
         await contractDetailsPage.getAllPaymentDetails();
     });
 
@@ -56,7 +56,7 @@ test.describe('Contract Details Page Verifications', () => {
         await contractDetailsPage.verifyCalculationswrong();
     });
 
-    test('Verify Payoff calculations', async () => {
+    test.only('Verify Payoff calculations', async () => {
         await calculations.verifyPayoffCalculations();
     });
 

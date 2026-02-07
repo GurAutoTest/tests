@@ -1,9 +1,0 @@
-Attempting to click View Details button...
-View Details button clicked.
---- Calculated Expected Values ---
-Enrollment Month: 4
-Calculated Principal: 125
-Calculated Payoff: 1550
-Calculated Recurring: 2123.7499999999995
-Expected Next Payment Date: 5/11/2024
----------------------------------

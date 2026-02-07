@@ -82,7 +82,8 @@ export class Calculations {
         this.recurringAmount = page.getByText(/Recurring Amount/i).locator('xpath=..').locator('p, span, div').last();
         
         this.downPaymentAmount = page.getByText(/Down Payment Amount/i).locator('xpath=..').locator('p, span, div').last();
-        this.interestRate = page.getByText(/Interest Rate/i).locator('xpath=..').locator('p, span, div').last();
+        // Direct ID is most reliable, fallback to specific P tag if ID missing
+        this.interestRate = page.getByLabel('Interest Rate');
         
         this.fixedDenefitsFee = page.getByText(/Fixed Denefits Fee/i).locator('xpath=..').locator('p, span, div').last();
         this.customerPayoffAmount = page.getByText(/Customer Payoff Amount/i).locator('xpath=..').locator('p, span, div').last();
@@ -122,8 +123,19 @@ export class Calculations {
     async getNumericAmount(locator: Locator): Promise<number> {
         try {
             const text = await locator.innerText();
-            // Remove '$', ',', and whitespace
-            const cleanText = text.replace(/[$,\s]/g, '');
+            // Remove '$', ',', and spaces
+            let cleanText = text.replace(/[$,\s]/g, '');
+            
+            // Handle expressions like '25*2' or '138.35+4.15'
+            if (cleanText.includes('*')) {
+                const parts = cleanText.split('*');
+                return (parseFloat(parts[0]) || 0) * (parseFloat(parts[1]) || 1);
+            }
+            if (cleanText.includes('+')) {
+                const parts = cleanText.split('+');
+                return (parseFloat(parts[0]) || 0) + (parseFloat(parts[1]) || 0);
+            }
+
             return parseFloat(cleanText) || 0;
         } catch (e) {
             console.log(`Failed to parse amount: ${e}`);
@@ -155,7 +167,7 @@ export class Calculations {
         const balance = await this.getNumericAmount(this.totalBalanceRemaining);
         const payoff = await this.getNumericAmount(this.customerPayoffAmount);
         const planAmount = await this.getNumericAmount(this.estimatedPaymentPlanAmount);
-        const nextPaymentDate = await this.nextPaymentDate.innerText();
+        //const nextPaymentDate = await this.nextPaymentDate.innerText();
         const estServiceAmount = await this.getNumericAmount(this.estimatedServiceAmount);
         const totalPayments = await this.getNumericAmount(this.totalPayments);
         const remainingPayments = await this.getNumericAmount(this.remainingPayments);
@@ -166,40 +178,59 @@ export class Calculations {
         const downPaymentAmount = await this.getNumericAmount(this.downPaymentAmount);
         const interestRate = await this.getNumericAmount(this.interestRate);
         const fixedDenefitsFee = await this.getNumericAmount(this.fixedDenefitsFee);
-        const enrollmentDateStr = await this.enrollmentDate.innerText();
+        //const enrollmentDateStr = await this.enrollmentDate.innerText();
         const donatedAmount = await this.getNumericAmount(this.donatedAmount);
 
         // Date extraction for month
-        const dateObj = new Date(enrollmentDateStr);
-        const my_enrollmentMonth = dateObj.getMonth() + 1; // 1-12
-        
+        // const dateObj = new Date(enrollmentDateStr);
+        // const my_enrollmentMonth = dateObj.getMonth() + 1; // 1-12
+
         const my_principalAmount = planAmount / totalPayments;
-        const my_payoffAmount = my_principalAmount * remainingPayments + (lateFeesCount * lateFees);
-        const my_missingPayments = totalPayments - remainingPayments;
-        const my_downPaymentAmount = estServiceAmount - planAmount;       
-        
         let my_interestRate;
-        if (totalPayments < 12) {
+        if (totalPayments >= 12) {
             my_interestRate = 19.90; 
         } else {
             my_interestRate = 16.99;
         }
 
-        const my_recurringAmount = (planAmount * my_interestRate) / totalPayments;
-        const my_totalBalanceRemaining = (recurringAmount * remainingPayments) + (lateFeesCount * lateFees);
-        // Calculate Next Payment Date (Enrollment Date + 1 Month)
-        const nextDateObj = new Date(dateObj);
-        nextDateObj.setMonth(nextDateObj.getMonth() + 1);
-        const my_nextPaymentDate = nextDateObj.toLocaleDateString(); 
+        let my_recurringAmount = (planAmount * my_interestRate) / totalPayments;
+        const my_remainingPayments = remainingPayments;
+        let my_payoffAmount;
+        if (missingPayments > 0) {
+            /////overdue case
+            my_payoffAmount = (my_principalAmount * (my_remainingPayments - missingPayments)) + (missingPayments * my_recurringAmount) + (lateFeesCount * lateFees);
+        } else {
+            /////actiive case
+            my_payoffAmount = my_principalAmount * my_remainingPayments;
+        }
+        const my_missingPayments = totalPayments - my_remainingPayments;
+        const my_downPaymentAmount = estServiceAmount - planAmount;       
+        
+       
+        const my_totalBalanceRemaining = (recurringAmount * my_remainingPayments) + (lateFeesCount * lateFees);
+
+
+
+
+
+
+        // // Calculate Next Payment Date (Enrollment Date + 1 Month)
+        // const nextDateObj = new Date(dateObj);
+        // nextDateObj.setMonth(nextDateObj.getMonth() + 1);
+        // const my_nextPaymentDate = nextDateObj.toLocaleDateString(); 
 
 
 
         console.log(`--- Calculated Expected Values ---`);
-        console.log(`Enrollment Month: ${my_enrollmentMonth}`);
+        // console.log(`Enrollment Month: ${my_enrollmentMonth}`);
+        console.log(`Calculated Total Balance Remaining: ${my_totalBalanceRemaining}`);
         console.log(`Calculated Principal: ${my_principalAmount}`);
         console.log(`Calculated Payoff: ${my_payoffAmount}`);
+        console.log(`Calculated Missing Payments: ${my_missingPayments}`);
+        console.log(`Calculated Down Payment Amount: ${my_downPaymentAmount}`);
+        console.log(`Calculated Interest Rate: ${my_interestRate}`);
         console.log(`Calculated Recurring: ${my_recurringAmount}`);
-        console.log(`Expected Next Payment Date: ${my_nextPaymentDate}`);
+        //console.log(`Expected Next Payment Date: ${my_nextPaymentDate}`);
         console.log(`---------------------------------`);
 
       

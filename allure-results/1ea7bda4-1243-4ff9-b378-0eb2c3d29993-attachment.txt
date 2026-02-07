@@ -16,7 +16,7 @@ View Details button clicked.
 │ Late Fees                     │ '25 * 2'          │
 │ Recurring Amount              │ '$138.35 + $4.15' │
 │ Down Payment Amount           │ '$0.00'           │
-│ Interest Rate                 │ ''                │
+│ Interest Rate                 │ '19.9%'           │
 │ Fixed Denefits Fee            │ '$30'             │
 │ Customer Payoff Amount        │ '$1,622.50'       │
 │ Enrollment Date               │ '04/11/2024'      │

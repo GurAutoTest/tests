@@ -82,12 +82,13 @@ export class ContractDetailsPage {
         this.recurringAmount = page.getByText(/Recurring Amount/i).locator('xpath=..').locator('p, span, div').last();
         
         this.downPaymentAmount = page.getByText(/Down Payment Amount/i).locator('xpath=..').locator('p, span, div').last();
-        this.interestRate = page.getByText(/Interest Rate/i).locator('xpath=..').locator('p, span, div').last();
+        // Direct ID is most reliable, fallback to specific P tag if ID missing
+        this.interestRate = page.locator('#interest_rate_to_show, p:has-text("Interest Rate") + p').first();
         
         this.fixedDenefitsFee = page.getByText(/Fixed Denefits Fee/i).locator('xpath=..').locator('p, span, div').last();
         this.customerPayoffAmount = page.getByText(/Customer Payoff Amount/i).locator('xpath=..').locator('p, span, div').last();
         
-        this.enrollmentDate = page.getByText(/Enrollment Date/i).locator('xpath=..').locator('p, span, div').last();
+        this.enrollmentDate = page.locator('p:has-text("Enrollment Date") + p, [id*="enrollment_date"]').first();
         this.donatedAmount = page.getByText(/Donated Amount/i).locator('xpath=..').locator('p, span, div').last();
         
         // Customer Details
