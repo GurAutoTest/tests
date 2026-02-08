@@ -287,19 +287,74 @@ export class Calculations {
         console.log(`Calculated Recurring: ${my_recurringAmount}`);
         //console.log(`Expected Next Payment Date: ${my_nextPaymentDate}`);
         console.log(`---------------------------------`);
-
-      
-        
-
-    
     }
 
+    async verifyTransactionHistory() {
+        console.log(`\n--- Transaction History Analysis ---`);
+        
+        // Strategy 1: Look for any table inside the "Transaction History" container
+        let table = this.transactionHistoryList.locator('table');
+        console.log(`Table count: ${await table.count()}`);
+        // Strategy 2: If not found, try proximity search from the header
+        if (await table.count() === 0) {
+            console.log("Direct table lookup failed. Trying proximity search...");
+            const header = this.page.getByText('Transaction History').first();
+            if (await header.count() > 0) {
+                 // Try looking for a table that follows the header
+                 table = header.locator('xpath=following-sibling::*//table | following::table').first();
+            }
+        }
+        
+        if (await table.count() === 0) {
+             console.log("Transaction table structure not found.");
+             try {
+                const content = await this.transactionHistoryList.innerText();
+                console.log("Container Text Content (snippet):", content.substring(0, 100).replace(/\n/g, ' '));
+             } catch (e) {
+                console.log("Could not read container text.");
+             }
+             return;
+        }
 
+        const rows = table.locator('tbody tr');
+        let rowCount = await rows.count();
+        if (rowCount === 0) {
+             // Maybe no tbody?
+             const allRows = table.locator('tr');
+             rowCount = await allRows.count();
+             // Skip header row if relevant (usually first row is th)
+             // We'll verify content to decide
+             console.log("No tbody rows, checking all rows...");
+        }
 
+        console.log(`Total Transactions Found: ${rowCount}`);
 
+        let totalPaid = 0;
 
+        for (let i = 0; i < rowCount; i++) {
+            const row = rows.nth(i);
+            
+            // Fetch all text for the row to log it
+            const rowText = await row.innerText();
+            
+            // Skip header row if it contains headers like 'Date' or 'Amount'
+            if (rowText.includes('Date') && rowText.includes('Amount')) continue;
 
-    
-
-   
+            console.log(`Transaction ${i+1}: ${rowText.replace(/\n/g, ', ').replace(/\t/g, ', ')}`);
+            
+            // Try to extract amount with regex (matches $123.45 or $1,234.56)
+            const amountMatch = rowText.match(/\$\s?([0-9,]+\.[0-9]{2})/);
+            if (amountMatch) {
+                const val = parseFloat(amountMatch[1].replace(/,/g, ''));
+                
+                // Only sum up if not failed/declined (adjust logic as needed)
+                if (!rowText.match(/Failed|Declined|Void/i)) {
+                    totalPaid += val;
+                }
+            }
+        }
+        
+        console.log(`Total Successful Paid Amount (Calculated): $${totalPaid.toFixed(2)}`);
+        console.log(`----------------------------------------\n`);
+    }
 }
