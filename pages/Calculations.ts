@@ -53,6 +53,12 @@ export class Calculations {
     readonly generateContributionLinkButton: Locator;
     readonly backToDashboardLink: Locator;
 
+    // Internal calculation storage
+    private my_totalBalanceRemaining: number = 0;
+    private my_downPaymentAmount: number = 0;
+    private my_recurringAmount: number = 0;
+    private my_intrestamount: number = 0;
+
     constructor(page: Page) {
         this.page = page;
 
@@ -110,7 +116,9 @@ export class Calculations {
         this.addNewCardButton = page.getByText(/Add New Card/i).first();
 
         // Transactions
-        this.transactionHistoryList = page.getByText(/Transaction History/i).locator('..');
+        // Transactions
+        this.transactionHistoryList = page.locator('div, section, .card').filter({ hasText: /Transaction History/i });
+
         this.serviceBreakdownTable = page.locator('table, [class*="breakdown-table"]');
         this.proofOfIdStatus = page.locator('div').filter({ hasText: /Proof of ID/i }).getByText(/Uploaded|Pending|Missing/i).first();
 
@@ -213,9 +221,10 @@ export class Calculations {
         console.log(`Total Payments: ${totalPayments}`);
         console.log(`Interest Rate Used: ${my_interestRate}`);
 
+        let totalWithInterest;
         if (totalPayments < 13) {
             console.log(`Logic: Total Payments < 13 (Using Multiplier Logic)`);
-            const totalWithInterest = planAmount * my_interestRate;
+            totalWithInterest = planAmount * my_interestRate;
             console.log(`Step 1: Plan Amount * Interest Rate (${planAmount} * ${my_interestRate}) = ${totalWithInterest}`);
             
             my_recurringAmount = totalWithInterest / totalPayments;
@@ -229,15 +238,16 @@ export class Calculations {
             const compoundFactor = Math.pow(rateFactor, totalPayments); // equivalent to ** totalPayments
             console.log(`Step 2: Compound Factor (${rateFactor} ^ ${totalPayments}) = ${compoundFactor}`);
             
-            const totalWithCompoundInterest = planAmount * compoundFactor;
-            console.log(`Step 3: Plan Amount * Compound Factor (${planAmount} * ${compoundFactor}) = ${totalWithCompoundInterest}`);
+            totalWithInterest = planAmount * compoundFactor;
+            console.log(`Step 3: Plan Amount * Compound Factor (${planAmount} * ${compoundFactor}) = ${totalWithInterest}`);
             
-            my_recurringAmount = totalWithCompoundInterest / (totalPayments+1);
-            console.log(`Step 4: Total / Total Payments (${totalWithCompoundInterest} / ${totalPayments}) = ${my_recurringAmount}`);
+            my_recurringAmount = totalWithInterest / (totalPayments+1);
+            console.log(`Step 4: Total / Total Payments (${totalWithInterest} / ${totalPayments}) = ${my_recurringAmount}`);
         }
         
         // Round recurring amount to 2 decimal places
         my_recurringAmount = parseFloat(my_recurringAmount.toFixed(2));
+        this.my_recurringAmount = my_recurringAmount;
         console.log(`Rounded Recurring Amount: ${my_recurringAmount}`);
         
         console.log(`------------------------------------------\n`);
@@ -259,14 +269,33 @@ export class Calculations {
         
         const my_missingPayments = totalPayments - my_remainingPayments;
         const my_downPaymentAmount = estServiceAmount - planAmount;       
+        this.my_downPaymentAmount = my_downPaymentAmount;
+        this.my_intrestamount = totalWithInterest - planAmount;
         
        
         let my_totalBalanceRemaining = (recurringAmount * my_remainingPayments) + (lateFeesCount * lateFees);
-        my_totalBalanceRemaining = parseFloat(my_totalBalanceRemaining.toFixed(2));
+        this.my_totalBalanceRemaining = parseFloat(my_totalBalanceRemaining.toFixed(2));
 
 
-
-
+        let my_DenefitsFeeUpfrontPayment = 0;
+        if(this.my_recurringAmount <= this.my_intrestamount){
+            // if recurring amount is less than or equal to interest amount
+            // then Denefits Fee + Upfront Payment = recurring amount
+            my_DenefitsFeeUpfrontPayment = this.my_recurringAmount;
+            console.log(`logic1`);
+         }
+         else if(this.my_recurringAmount > this.my_intrestamount){
+            // if recurring amount is greater than interest amount
+            // then Denefits Fee + Upfront Payment = interest amount
+            my_DenefitsFeeUpfrontPayment = this.my_intrestamount;
+            console.log(`logic2`);
+         }
+         else{
+            my_DenefitsFeeUpfrontPayment = (await this.getNumericAmount(this.estimatedPaymentPlanAmount)) / 10;
+            console.log(`logic3`);
+         }
+         console.log(`Calculated Denefits Fee + Upfront Payment: ${my_DenefitsFeeUpfrontPayment}`);
+   
 
 
         // // Calculate Next Payment Date (Enrollment Date + 1 Month)
@@ -289,72 +318,119 @@ export class Calculations {
         console.log(`---------------------------------`);
     }
 
+    private async ensureCalculationsPopulated() {
+        if (this.my_totalBalanceRemaining === 0 && this.my_downPaymentAmount === 0) {
+            console.log("Calculations not populated, running verifyPayoffCalculations first...");
+            await this.verifyPayoffCalculations();
+        }
+    }
+
     async verifyTransactionHistory() {
         console.log(`\n--- Transaction History Analysis ---`);
-        
-        // Strategy 1: Look for any table inside the "Transaction History" container
-        let table = this.transactionHistoryList.locator('table');
-        console.log(`Table count: ${await table.count()}`);
-        // Strategy 2: If not found, try proximity search from the header
-        if (await table.count() === 0) {
-            console.log("Direct table lookup failed. Trying proximity search...");
-            const header = this.page.getByText('Transaction History').first();
-            if (await header.count() > 0) {
-                 // Try looking for a table that follows the header
-                 table = header.locator('xpath=following-sibling::*//table | following::table').first();
-            }
-        }
-        
-        if (await table.count() === 0) {
-             console.log("Transaction table structure not found.");
-             try {
-                const content = await this.transactionHistoryList.innerText();
-                console.log("Container Text Content (snippet):", content.substring(0, 100).replace(/\n/g, ' '));
-             } catch (e) {
-                console.log("Could not read container text.");
-             }
-             return;
+        await this.ensureCalculationsPopulated();
+
+        // Wait for the "Transaction History" text to be present on the page
+        const header = this.page.getByText(/Transaction History/i).first();
+        try {
+            await header.waitFor({ state: 'attached', timeout: 10000 });
+            await header.scrollIntoViewIfNeeded();
+            console.log(`Found Header: "${await header.innerText()}"`);
+        } catch (e) {
+            console.log("Could not find 'Transaction History' header even after waiting.");
+            // Log a bit of the page text to see what's actually there
+            const pageText = await this.page.innerText('body');
+            console.log("Page text snippet:", pageText.substring(0, 500).replace(/\n/g, ' '));
+            return;
         }
 
-        const rows = table.locator('tbody tr');
+        // Find rows: we look for any element that has a $ sign followed by numbers
+        // We look within the parent card/section if possible, or just the whole page if it's clear
+        const container = header.locator('xpath=ancestor::div[contains(@class, "card") or contains(@class, "section") or contains(@class, "container")][1] | ancestor::section[1] | ancestor::div[1]').first();
+        
+        // Find all rows that have a $ sign (amount) and a date (MM/DD/YYYY)
+        // This helps filter out summary items that lack dates
+        const rows = container.locator('div, [class*="item"], [class*="row"], tr, li').filter({ hasText: /\$\s?[0-9,]+\.[0-9]{2}/ }).filter({ hasText: /[0-9]{2}\/[0-9]{2}\/[0-9]{4}/ });
         let rowCount = await rows.count();
-        if (rowCount === 0) {
-             // Maybe no tbody?
-             const allRows = table.locator('tr');
-             rowCount = await allRows.count();
-             // Skip header row if relevant (usually first row is th)
-             // We'll verify content to decide
-             console.log("No tbody rows, checking all rows...");
-        }
 
-        console.log(`Total Transactions Found: ${rowCount}`);
+        console.log(`Total Potential Transaction Rows Found: ${rowCount}`);
+
+        if (rowCount === 0) {
+            console.log("No transaction-like rows (with $ and Date) found in the container.");
+            return;
+        }
 
         let totalPaid = 0;
+        let successfulTransactions = 0;
+
+        const skipLabels = /Total Balance|Service Amount|Payment Plan|Recurring Amount|Down Payment|Payoff Amount/i;
 
         for (let i = 0; i < rowCount; i++) {
             const row = rows.nth(i);
-            
-            // Fetch all text for the row to log it
             const rowText = await row.innerText();
             
-            // Skip header row if it contains headers like 'Date' or 'Amount'
-            if (rowText.includes('Date') && rowText.includes('Amount')) continue;
+            // Skip known summary labels just in case the date check wasn't enough
+            if (skipLabels.test(rowText)) continue;
 
-            console.log(`Transaction ${i+1}: ${rowText.replace(/\n/g, ', ').replace(/\t/g, ', ')}`);
+            // To avoid summing up parents that contain children already counted:
+            const nestedCount = await row.locator('div, [class*="item"], [class*="row"], tr, li').filter({ hasText: /\$\s?[0-9,]+\.[0-9]{2}/ }).count();
+            if (nestedCount > 0) continue; 
+
+            console.log(`Transaction Row ${successfulTransactions + 1}: ${rowText.replace(/\n/g, ', ').replace(/\t/g, ', ')}`);
             
-            // Try to extract amount with regex (matches $123.45 or $1,234.56)
+            // Extract amount ($123.45)
             const amountMatch = rowText.match(/\$\s?([0-9,]+\.[0-9]{2})/);
             if (amountMatch) {
                 const val = parseFloat(amountMatch[1].replace(/,/g, ''));
                 
-                // Only sum up if not failed/declined (adjust logic as needed)
+                // Only sum up if not failed/declined
                 if (!rowText.match(/Failed|Declined|Void/i)) {
                     totalPaid += val;
+                    successfulTransactions++;
+
+                    // Dispatch to specialized handlers based on description
+                    if (rowText.includes('Denefits Fee + Upfront Payment')) {
+                        await this.handleDenefitsFeeUpfrontPayment(rowText, val);
+                    } else if (rowText.includes('Recurring Payment')) {
+                        await this.handleRecurringPayment(rowText, val);
+                    } else {
+                        console.log(`Other Payment Type detected: ${val}`);
+                    }
                 }
             }
         }
         
-        console.log(`Total Successful Paid Amount (Calculated): $${totalPaid.toFixed(2)}`);
-        console.log(`----------------------------------------\n`);
+    }
+
+    async handleDenefitsFeeUpfrontPayment(rowText: string, amount: number) {
+        console.log(`>>> Specialized Handler: handleDenefitsFeeUpfrontPayment ($${amount})`);
+        // Add specific validation logic here if needed
+        expect.soft(amount).toBeGreaterThan(0);
+        // uf have 3 logics 
+
+        // let my_DenefitsFeeUpfrontPayment = 0;
+        // if(this.my_recurringAmount <= this.my_intrestamount){
+        //     // if recurring amount is less than or equal to interest amount
+        //     // then Denefits Fee + Upfront Payment = recurring amount
+        //     my_DenefitsFeeUpfrontPayment = this.my_recurringAmount;
+        //     console.log(`logic1`);
+        //  }
+        //  else if(this.my_recurringAmount > this.my_intrestamount){
+        //     // if recurring amount is greater than interest amount
+        //     // then Denefits Fee + Upfront Payment = interest amount
+        //     my_DenefitsFeeUpfrontPayment = this.my_intrestamount;
+        //     console.log(`logic2`);
+        //  }
+        //  else{
+        //     my_DenefitsFeeUpfrontPayment = (await this.getNumericAmount(this.estimatedPaymentPlanAmount)) / 10;
+        //     console.log(`logic3`);
+        //  }
+        
+        //console.log(`Calculated Denefits Fee + Upfront Payment: ${my_DenefitsFeeUpfrontPayment}`);
+    }
+
+    async handleRecurringPayment(rowText: string, amount: number) {
+        console.log(`>>> Specialized Handler: handleRecurringPayment ($${amount})`);
+        // Add specific validation logic here if needed
+        expect.soft(amount).toBeGreaterThan(0);
     }
 }

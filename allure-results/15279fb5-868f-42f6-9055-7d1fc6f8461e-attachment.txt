@@ -1,9 +1,0 @@
-Attempting to click View Details button...
-View Details button clicked.
-
---- Transaction History Analysis ---
-Table count: 0
-Direct table lookup failed. Trying proximity search...
-Transaction table structure not found.
-Container HTML Snippet: <p _ngcontent-nfw-c86="" class="content-title">Transaction History</p><div _ngcontent-nfw-c86="" style="max-height: 344px; overflow-y: auto;"><table _ngcontent-nfw-c86=""><tr _ngcontent-nfw-c86="" class="ng-star-inserted"><td _ngcontent-nfw-c86=""><p _ngcontent-nfw-c86="" class="font-size-16">$123.35</p><p _ngcontent-nfw-c86="" class="dull-text" style="white-space: nowrap;">05/21/2024</p></td><td _ngcontent-nfw-c86=""><p _ngcontent-nfw-c86="" class="font-size-16"> Denefits Fee + Upfront Payment<
-Container Text Content (snippet): Transaction History  $123.35  05/21/2024  	  Denefits Fee + Upfront Payment     	  Paid  Visa 1111  
