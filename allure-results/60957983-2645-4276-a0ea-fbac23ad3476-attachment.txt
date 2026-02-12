@@ -26,3 +26,7 @@ Calculated Recurring: 81.35
 ---------------------------------
 Excel file updated (Fetched): /Users/gurdeepsingh/tests/test-contract-data/BRPUTBW81519.xlsx
 Excel file updated (Calculated): /Users/gurdeepsingh/tests/test-contract-data/BRPUTBW81519.xlsx
+set toh phla: 1533.9499999999998
+set toh phla: 1262.7
+set toh phla: 17
+set toh phla: 66.66666666666667

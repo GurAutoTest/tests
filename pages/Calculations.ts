@@ -58,10 +58,23 @@ export class Calculations {
     private my_downPaymentAmount: number = 0;
     private my_recurringAmount: number = 0;
     private my_intrestamount: number = 0;
-    private my_afterfirstrecurring_recurringAmount: number = 0;
-    private my_afterfirstrecurring_downPaymentAmount: number = 0;
-    private my_afterfirstrecurring_intrestamount: number = 0;
-    private my_afterfirstrecurring_totalBalanceRemaining: number = 0;
+    private my_payoffAmount: number = 0;
+    private my_planAmount: number = 0;
+    private my_estServiceAmount: number = 0;
+    private my_totalPayments: number = 0;
+    private my_remainingPayments: number = 0;
+    private my_missingPayments: number = 0;
+    private my_lateFeesCount: number = 0;
+    private my_lateFees: number = 0;
+    private my_interestRate: number = 0;
+    private my_fixedDenefitsFee: number = 0;
+    private my_donatedAmount: number = 0;
+    private my_nextPaymentDate: string = '';
+    private my_principalAmount: number = 0;
+
+
+
+    
 
     constructor(page: Page) {
         this.page = page;
@@ -239,12 +252,7 @@ export class Calculations {
         // const my_enrollmentMonth = dateObj.getMonth() + 1; // 1-12
 
         const my_principalAmount = planAmount / totalPayments;
-        // let my_interestRate;
-        // if (totalPayments >= 12) {
-        //     my_interestRate = 1.1990; 
-        // } else {
-        //     my_interestRate = 16.99;
-        // }
+     
         let my_interestRate;
 
         if (totalPayments < 13) {
@@ -377,7 +385,40 @@ export class Calculations {
                 my_DenefitsFeeUpfrontPayment
             }
         );
-        
+
+
+        // console.log(`set toh phla: ${my_totalBalanceRemaining}`);
+        // console.log(`set toh phla: ${my_payoffAmount}`);
+        // console.log(`set toh phla: ${my_remainingPayments}`);
+        // console.log(`set toh phla: ${my_principalAmount}`);
+
+
+
+
+
+
+
+
+             // set dubara global varable *****************************************************
+        this.my_totalBalanceRemaining = my_totalBalanceRemaining;
+        this.my_payoffAmount = my_payoffAmount;
+        this.my_planAmount = planAmount;
+        this.my_nextPaymentDate = nextPaymentDate;
+        this.my_estServiceAmount = estServiceAmount;
+        this.my_totalPayments = totalPayments;
+        this.my_remainingPayments = my_remainingPayments;
+        this.my_missingPayments = my_missingPayments;
+        this.my_lateFeesCount = lateFeesCount;
+        this.my_lateFees = lateFees;
+        this.my_principalAmount = my_principalAmount;
+        this.my_recurringAmount = my_recurringAmount;
+        this.my_downPaymentAmount = my_downPaymentAmount;
+        this.my_interestRate = my_interestRate;
+        this.my_fixedDenefitsFee = fixedDenefitsFee;
+        this.my_donatedAmount = donatedAmount;
+
+
+
     }
 
     async saveContractSummaryToExcel(contractId: string, rowLabel: string, dataObj: any) {
@@ -455,21 +496,21 @@ export class Calculations {
         // Pass array of precedence: dataObj[key], then dataObj[otherKey]...
         update('Service Amount', [dataObj.estServiceAmount, dataObj.serviceAmount]);
         update('Plan Amount', [dataObj.planAmount, dataObj.estimatedPaymentPlanAmount]);
-        update('Down Payment', [dataObj.my_downPaymentAmount, dataObj.downPaymentAmount, dataObj.my_afterfirstrecurring_downPaymentAmount]);
-        update('Interest Rate', [dataObj.my_interestRate, dataObj.interestRate, dataObj.my_afterfirstrecurring_interestRate]);
+        update('Down Payment', [dataObj.my_downPaymentAmount, dataObj.downPaymentAmount, dataObj.my_afterfirstrecurring_downPaymentAmount, dataObj.my_afterrecurring_downPaymentAmount]);
+        update('Interest Rate', [dataObj.my_interestRate, dataObj.interestRate, dataObj.my_afterfirstrecurring_interestRate, dataObj.my_afterrecurring_interestRate]);
         update('Total Payments', [dataObj.totalPayments]);
-        update('Remaining Payments', [dataObj.my_afterfirstrecurring_remainingPayments, dataObj.my_remainingPayments, dataObj.remainingPayments]);
-        update('Principal', [dataObj.my_principalAmount, dataObj.my_afterfirstrecurring_principalAmount, dataObj.principalAmount]);
-        update('Recurring Amount', [dataObj.my_afterfirstrecurring_recurringAmount, dataObj.my_recurringAmount, dataObj.recurringAmount]);
-        update('Total Balance Remaining', [dataObj.my_afterfirstrecurring_totalBalanceRemaining, dataObj.my_totalBalanceRemaining, dataObj.balance, dataObj.totalBalanceRemaining]);
-        update('Payoff', [dataObj.my_afterfirstrecurring_payoffAmount, dataObj.my_payoffAmount, dataObj.payoff, dataObj.customerPayoffAmount]);
+        update('Remaining Payments', [dataObj.my_afterfirstrecurring_remainingPayments, dataObj.my_remainingPayments, dataObj.remainingPayments, dataObj.my_afterrecurring_remainingPayments]);
+        update('Principal', [dataObj.my_principalAmount, dataObj.my_afterfirstrecurring_principalAmount, dataObj.principalAmount, dataObj.my_afterrecurring_principalAmount]);
+        update('Recurring Amount', [dataObj.my_afterfirstrecurring_recurringAmount, dataObj.my_recurringAmount, dataObj.recurringAmount, dataObj.my_afterrecurring_recurringAmount]);
+        update('Total Balance Remaining', [dataObj.my_afterfirstrecurring_totalBalanceRemaining, dataObj.my_totalBalanceRemaining, dataObj.balance, dataObj.totalBalanceRemaining, dataObj.my_afterrecurring_totalBalanceRemaining]);
+        update('Payoff', [dataObj.my_afterfirstrecurring_payoffAmount, dataObj.my_payoffAmount, dataObj.payoff, dataObj.customerPayoffAmount, dataObj.my_afterrecurring_payoffAmount]);
         update('Next Payment Date', [dataObj.nextPaymentDate, dataObj.my_nextPaymentDate]);
-        update('Missing Payments', [dataObj.my_missingPayments, dataObj.missingPayments, dataObj.my_afterfirstrecurring_missingPayments]);
+        update('Missing Payments', [dataObj.my_missingPayments, dataObj.missingPayments, dataObj.my_afterfirstrecurring_missingPayments, dataObj.my_afterrecurring_missingPayments]);
         update('Late Fees Count', [dataObj.lateFeesCount]);
         update('Late Fees', [dataObj.lateFees]);
         update('Denefits Fee', [dataObj.fixedDenefitsFee, dataObj.DenefitsFee]);
         update('Donated', [dataObj.donatedAmount]);
-        update('Interest Amount', [dataObj.my_afterfirstrecurring_intrestamount, dataObj.my_intrestamount, dataObj.interestAmount]);
+        update('Interest Amount', [dataObj.my_afterfirstrecurring_intrestamount, dataObj.my_intrestamount, dataObj.interestAmount, dataObj.my_afterrecurring_intrestamount]);
         update('Denefits Fee+Upfront', [dataObj.my_DenefitsFeeUpfrontPayment]);
 
 
@@ -486,10 +527,15 @@ export class Calculations {
     // }
 
     async verifyTransactionHistory() {
-        console.log(`\n--- Transaction History Analysis ---`);
-        // await this.ensureCalculationsPopulated();
+        // If initial calculations haven't been run or globals are empty, run them now.
+        if (this.my_principalAmount === 0 || this.my_totalPayments === 0) {
+            console.log("Initial calculations not loaded. Running verifyInitialCalculations first...");
+            await this.verifyInitialCalculations();
+        }
 
-        // Wait for the "Transaction History" text to be present on the page
+        console.log("Verifying Transaction History...");
+        // // 1. Locate the transaction block
+        // // Assuming it's a div, table, or list with class related to "history" or "transactions"
         const header = this.page.getByText(/Transaction History/i).first();
         try {
             await header.waitFor({ state: 'attached', timeout: 10000 });
@@ -553,6 +599,7 @@ export class Calculations {
 
                     if (rowText.includes('Denefits Fee + Upfront Payment')) {
                         await this.handleDenefitsFeeUpfrontPayment(rowText, val);
+
                     } else if (rowText.includes('First Recurring Payment')) {
                         await this.handleFirstRecurringPayment(rowText, val);
                     } else if (rowText.includes('Recurring Payment')) {
@@ -615,116 +662,91 @@ export class Calculations {
     async handleFirstRecurringPayment(rowText: string, amount: number) {
         console.log(`>>> Specialized Handler: handleFirstRecurringPayment ($${amount})`);
         expect.soft(amount).toBeGreaterThan(0);
-
-
-
-
-        const balance = await this.getNumericAmount(this.totalBalanceRemaining);
-        const payoff = await this.getNumericAmount(this.customerPayoffAmount);
-        const planAmount = await this.getNumericAmount(this.estimatedPaymentPlanAmount);
-        const nextPaymentDate = await this.nextPaymentDate.innerText();
-        const estServiceAmount = await this.getNumericAmount(this.estimatedServiceAmount);
-        const totalPayments = await this.getNumericAmount(this.totalPayments);
+        
         const contractId = await this.contractIdHeading.innerText().then(t => t.replace(/Contract ID:\s?/i, '').trim());
-        const remainingPayments = await this.readExcelValue(contractId, 'Remaining Payments', 'Calculated');
-        // const missingPayments = await this.getNumericAmount(this.missingPayments);
-        // const lateFeesCount = await this.getNumericAmount(this.lateFeesCount);
-        // const lateFees = await this.getNumericAmount(this.lateFees);
-        // const recurringAmount = await this.getNumericAmount(this.recurringAmount);
-        // const downPaymentAmount = await this.getNumericAmount(this.downPaymentAmount);
-        const lateFeesCount = await this.readExcelValue(contractId, 'Late Fees Count', 'Calculated');
-        const lateFees = await this.readExcelValue(contractId, 'Late Fees', 'Calculated');
-        const recurringAmount = await this.readExcelValue(contractId, 'Recurring Amount', 'Calculated');
-        const downPaymentAmount = await this.readExcelValue(contractId, 'Down Payment', 'Calculated');      
-        const missingPayments = await this.readExcelValue(contractId, 'Missing Payments', 'Calculated');
+
+        const my_principalAmount = await this.my_principalAmount;        
+        const my_remainingPayments = await this.my_remainingPayments;
+        const my_totalPayments = await this.my_totalPayments;
+        const my_planAmount = await this.my_planAmount;
+        const my_interestRate = await this.my_interestRate;
+        const my_recurringAmount = await this.my_recurringAmount;
+        const my_missingPayments =  await this.my_totalPayments - my_remainingPayments;
+        const my_downPaymentAmount = await this.my_estServiceAmount - this.my_planAmount;       
+        const my_lateFeesCount = await this.my_lateFeesCount;
+        const my_lateFees = await this.my_lateFees;
 
 
-        const my_interestRate = await this.readExcelValue(contractId, 'Interest Rate', 'Calculated');
-        const fixedDenefitsFee = await this.getNumericAmount(this.fixedDenefitsFee);
-        const donatedAmount = await this.getNumericAmount(this.donatedAmount);
+        // console.log(`sidaaaaaaaaaaaaaaaaaaa: ${this.my_recurringAmount}`);
+
+        // console.log(`my_principalAmount: ${my_principalAmount}`);
+        // console.log(`my_remainingPayments: ${my_remainingPayments}`);
+        // console.log(`my_totalPayments: ${my_totalPayments}`);
+        // console.log(`my_planAmount: ${my_planAmount}`);
+        // console.log(`my_interestRate: ${my_interestRate}`);
+        // console.log(`my_recurringAmount: ${my_recurringAmount}`);
+        // console.log(`my_missingPayments: ${my_missingPayments}`);
+        // console.log(`my_downPaymentAmount: ${my_downPaymentAmount}`);
+        // console.log(`my_lateFeesCount: ${my_lateFeesCount}`);
+        // console.log(`my_lateFees: ${my_lateFees}`);
 
 
 
 
-    
-        const my_afterfirstrecurring_principalAmount = planAmount / totalPayments;
-        
-        let my_afterfirstrecurring_recurringAmount; 
-        let totalWithInterest: number = 0;
-        
-        if (totalPayments < 13) {
-            totalWithInterest = planAmount * my_interestRate;
-            my_afterfirstrecurring_recurringAmount = totalWithInterest / totalPayments;
-        } else {
-            
-            const rateFactor = 1 + (my_interestRate / 1200);
-            
-            const compoundFactor = Math.pow(rateFactor, totalPayments); // equivalent to ** totalPayments
-            
-            totalWithInterest = planAmount * compoundFactor;
-            
-            my_afterfirstrecurring_recurringAmount = totalWithInterest / (totalPayments+1);
-        }
-        const my_afterfirstrecurring_remainingPayments = remainingPayments;
-        // Round recurring amount to 2 decimal places
-        
-        my_afterfirstrecurring_recurringAmount = parseFloat(my_afterfirstrecurring_recurringAmount.toFixed(2));
-        this.my_afterfirstrecurring_recurringAmount = my_afterfirstrecurring_recurringAmount;
-
-        const my_afterfirstrecurring_missingPayments = totalPayments - my_afterfirstrecurring_remainingPayments;
-        const my_afterfirstrecurring_downPaymentAmount = estServiceAmount - planAmount;       
-        this.my_afterfirstrecurring_downPaymentAmount = my_afterfirstrecurring_downPaymentAmount;
-        const my_afterfirstrecurring_intrestamount = totalWithInterest - planAmount;
-        this.my_afterfirstrecurring_intrestamount = my_afterfirstrecurring_intrestamount;
-        
-
-        
-        let my_afterfirstrecurring_payoffAmount;
-        if (my_afterfirstrecurring_missingPayments > 0) {
+        let my_payoffAmount;
+        if (my_missingPayments > 0) {
             /////overdue case
-            my_afterfirstrecurring_payoffAmount = (my_afterfirstrecurring_principalAmount * (my_afterfirstrecurring_remainingPayments - missingPayments)) + (missingPayments * my_afterfirstrecurring_recurringAmount) + (lateFeesCount * lateFees);
+            my_payoffAmount = (my_principalAmount * (my_remainingPayments - my_missingPayments)) + (my_missingPayments * my_recurringAmount) + (my_lateFeesCount * my_lateFees);
         } else {
             /////actiive case
-            my_afterfirstrecurring_payoffAmount = my_afterfirstrecurring_principalAmount * my_afterfirstrecurring_remainingPayments;
+            my_payoffAmount = my_principalAmount * my_remainingPayments;
         }
         
         // Round payoff amount
-        my_afterfirstrecurring_payoffAmount = parseFloat(my_afterfirstrecurring_payoffAmount.toFixed(2));
+        my_payoffAmount = parseFloat(my_payoffAmount.toFixed(2));
         
-        
-       
-        let my_afterfirstrecurring_totalBalanceRemaining = (this.my_afterfirstrecurring_recurringAmount * my_afterfirstrecurring_remainingPayments) + (lateFeesCount * lateFees);
-        this.my_afterfirstrecurring_totalBalanceRemaining = parseFloat(my_afterfirstrecurring_totalBalanceRemaining.toFixed(2));
-
-
-
-
-
-
+        let my_totalBalanceRemaining = (my_recurringAmount * my_remainingPayments) + (my_lateFeesCount * my_lateFees);
+        my_totalBalanceRemaining = parseFloat(my_totalBalanceRemaining.toFixed(2));
 
         await this.saveContractSummaryToExcel(
              contractId,
              'After First Recurring',
              {
-                 my_afterfirstrecurring_principalAmount,
-                 my_afterfirstrecurring_interestRate: my_interestRate,
-                 my_afterfirstrecurring_recurringAmount,
-                 my_afterfirstrecurring_remainingPayments,
-                 my_afterfirstrecurring_payoffAmount,
-                 my_afterfirstrecurring_missingPayments,
-                 my_afterfirstrecurring_downPaymentAmount,
-                 my_afterfirstrecurring_intrestamount,
-                 my_afterfirstrecurring_totalBalanceRemaining,
-                 lateFees,
-                 lateFeesCount
+                 my_principalAmount,
+                 my_interestRate,
+                 my_recurringAmount,
+                 my_remainingPayments,
+                 my_payoffAmount,
+                 my_planAmount,
+                 my_totalPayments,
+                 my_missingPayments,
+                 my_downPaymentAmount,
+                 my_totalBalanceRemaining,
+                 my_lateFees,
+                 my_lateFeesCount
+    
              }
         );
+
+
+        // set dubara global varable *****************************************************
+        this.my_totalBalanceRemaining = my_totalBalanceRemaining;
+        this.my_payoffAmount = my_payoffAmount;
+        this.my_planAmount = my_planAmount;
+        // this.my_nextPaymentDate = nextPaymentDate;
+        this.my_totalPayments = my_totalPayments;
+        this.my_remainingPayments = my_remainingPayments;
+        this.my_missingPayments = my_missingPayments;
+        this.my_lateFeesCount = my_lateFeesCount;
+        this.my_lateFees = my_lateFees;
+        this.my_principalAmount = my_principalAmount;
+        this.my_recurringAmount = my_recurringAmount;
+        this.my_downPaymentAmount = my_downPaymentAmount;
+        this.my_interestRate = my_interestRate;
+        //this.my_donatedAmount = donatedAmount;
+
+
     }
-
-
-
-
-
 
 
 
@@ -737,8 +759,76 @@ export class Calculations {
 
 
     async handleRecurringPayment(rowText: string, amount: number) {
-        console.log(`>>> Specialized Handler: handleRecurringPayment ($${amount})`);
+        const paymentNumber = this.my_totalPayments - this.my_remainingPayments + 1;
+        console.log(`>>> Specialized Handler: handleRecurringPayment ($${amount}) - Payment #${paymentNumber}`);
         expect.soft(amount).toBeGreaterThan(0);
+
+        const contractId = await this.contractIdHeading.innerText().then(t => t.replace(/Contract ID:\s?/i, '').trim());
+
+        const my_principalAmount = this.my_principalAmount;        
+        const my_remainingPayments = this.my_remainingPayments;
+        const my_totalPayments = this.my_totalPayments;
+        const my_planAmount = this.my_planAmount;
+        const my_interestRate = this.my_interestRate;
+        const my_recurringAmount = this.my_recurringAmount;
+        const my_missingPayments = this.my_totalPayments - my_remainingPayments;
+        const my_downPaymentAmount = this.my_estServiceAmount - this.my_planAmount;       
+        const my_lateFeesCount = this.my_lateFeesCount;
+        const my_lateFees = this.my_lateFees;
+
+        let my_payoffAmount;
+        if (my_missingPayments > 0) {
+            /////overdue case
+            my_payoffAmount = (my_principalAmount * (my_remainingPayments - my_missingPayments)) + (my_missingPayments * my_recurringAmount) + (my_lateFeesCount * my_lateFees);
+        } else {
+            /////actiive case
+            my_payoffAmount = my_principalAmount * my_remainingPayments;
+        }
+        
+        // Round payoff amount
+        my_payoffAmount = parseFloat(my_payoffAmount.toFixed(2));
+        
+        let my_totalBalanceRemaining = (my_recurringAmount * my_remainingPayments) + (my_lateFeesCount * my_lateFees);
+        my_totalBalanceRemaining = parseFloat(my_totalBalanceRemaining.toFixed(2));
+
+        await this.saveContractSummaryToExcel(
+             contractId,
+             'Recurring Payment',
+             {
+                 my_principalAmount,
+                 my_interestRate,
+                 my_recurringAmount,
+                 my_remainingPayments,
+                 my_payoffAmount,
+                 my_planAmount,
+                 my_totalPayments,
+                 my_missingPayments,
+                 my_downPaymentAmount,
+                 my_totalBalanceRemaining,
+                 my_lateFees,
+                 my_lateFeesCount
+    
+             }
+        );
+
+
+        // set dubara global varable *****************************************************
+        this.my_totalBalanceRemaining = my_totalBalanceRemaining;
+        this.my_payoffAmount = my_payoffAmount;
+        this.my_planAmount = my_planAmount;
+        // this.my_nextPaymentDate = nextPaymentDate;
+        this.my_totalPayments = my_totalPayments;
+        this.my_remainingPayments = my_remainingPayments;
+        this.my_missingPayments = my_missingPayments;
+        this.my_lateFeesCount = my_lateFeesCount;
+        this.my_lateFees = my_lateFees;
+        this.my_principalAmount = my_principalAmount;
+        this.my_recurringAmount = my_recurringAmount;
+        this.my_downPaymentAmount = my_downPaymentAmount;
+        this.my_interestRate = my_interestRate;
+        //this.my_donatedAmount = donatedAmount;
+
+
     }
 
     async handlePartialPayment(rowText: string, amount: number) {
@@ -751,9 +841,93 @@ export class Calculations {
         expect.soft(amount).toBeGreaterThan(0);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     async handlePayoff(rowText: string, amount: number) {
         console.log(`>>> Specialized Handler: handlePayoff ($${amount})`);
         expect.soft(amount).toBeGreaterThan(0);
+
+
+        const contractId = await this.contractIdHeading.innerText().then(t => t.replace(/Contract ID:\s?/i, '').trim());
+
+        const my_principalAmount = await this.my_principalAmount;        
+        const my_remainingPayments = 0;
+        const my_totalPayments = await this.my_totalPayments;
+        const my_planAmount = await this.my_planAmount;
+        const my_interestRate = await this.my_interestRate;
+        const my_recurringAmount = await this.my_recurringAmount;
+        const my_missingPayments =  0;
+        const my_downPaymentAmount = await this.my_estServiceAmount - this.my_planAmount;       
+        const my_lateFeesCount = 0;
+        const my_lateFees = 0;
+
+
+
+
+        let my_payoffAmount;
+        if (my_missingPayments > 0) {
+            /////overdue case
+            my_payoffAmount = (my_principalAmount * (my_remainingPayments - my_missingPayments)) + (my_missingPayments * my_recurringAmount) + (my_lateFeesCount * my_lateFees);
+        } else {
+            /////actiive case
+            my_payoffAmount = my_principalAmount * my_remainingPayments;
+        }
+        
+        // Round payoff amount
+        my_payoffAmount = parseFloat(my_payoffAmount.toFixed(2));
+        
+        let my_totalBalanceRemaining = 0;
+        my_totalBalanceRemaining = parseFloat(my_totalBalanceRemaining.toFixed(2));
+
+        await this.saveContractSummaryToExcel(
+             contractId,
+             'After First Recurring',
+             {
+                 my_principalAmount,
+                 my_interestRate,
+                 my_recurringAmount,
+                 my_remainingPayments,
+                 my_payoffAmount,
+                 my_planAmount,
+                 my_totalPayments,
+                 my_missingPayments,
+                 my_downPaymentAmount,
+                 my_totalBalanceRemaining,
+                 my_lateFees,
+                 my_lateFeesCount
+    
+             }
+        );
+
+
+        // set dubara global varable *****************************************************
+        this.my_totalBalanceRemaining = my_totalBalanceRemaining;
+        this.my_payoffAmount = my_payoffAmount;
+        this.my_planAmount = my_planAmount;
+        // this.my_nextPaymentDate = nextPaymentDate;
+        this.my_totalPayments = my_totalPayments;
+        this.my_remainingPayments = my_remainingPayments;
+        this.my_missingPayments = my_missingPayments;
+        this.my_lateFeesCount = my_lateFeesCount;
+        this.my_lateFees = my_lateFees;
+        this.my_principalAmount = my_principalAmount;
+        this.my_recurringAmount = my_recurringAmount;
+        this.my_downPaymentAmount = my_downPaymentAmount;
+        this.my_interestRate = my_interestRate;
+        //this.my_donatedAmount = donatedAmount;
+
+
+
     }
 
     async handleContributionLink(rowText: string, amount: number) {
@@ -779,6 +953,18 @@ export class Calculations {
         } else {
              // Create summary headers if file doesn't exist
              existingData = [[ 'Type', 'Contract ID', '... (Summary Data Missing)' ]];
+        }
+
+        // Check for existing Transaction History and remove it
+        const transHistoryIndex = existingData.findIndex(row => row && row[0] === 'Transaction History');
+        if (transHistoryIndex !== -1) {
+            // Remove everything starting from Transaction History
+            // Also try to remove the empty row before it if it exists
+            let cutIndex = transHistoryIndex;
+            if (cutIndex > 0 && (existingData[cutIndex-1].length === 0 || !existingData[cutIndex-1][0])) {
+                cutIndex--;
+            }
+            existingData = existingData.slice(0, cutIndex);
         }
 
         // Add Gap

@@ -1,0 +1,8 @@
+Test case TC01 failed: locator.selectOption: Test timeout of 90000ms exceeded.
+Call log:
+  - waiting for locator('select[name="subjects"]')
+
+Results saved to Excel.
+
+--- MISMATCH REPORT ---
+ID: TC01 | Expected: Pass | Actual: Fail
