@@ -4,7 +4,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { ContractDetailsPage } from '../pages/ContractDetailsPage';
 import { Calculations} from '../pages/Calculations';
 
-test.describe('Contract Details Page Verifications', () => {
+test.describe('Contract Calculations Verifications', () => {
     let loginPage: LoginPage1;
     let dashboardPage: DashboardPage;
     let contractDetailsPage: ContractDetailsPage;
@@ -32,43 +32,15 @@ test.describe('Contract Details Page Verifications', () => {
         await page.waitForTimeout(2000); // Give contract details page time to load its dynamic data
     });
 
-    test('Verify Contract details page structure and visibility', async () => {
-        await contractDetailsPage.verifyContractDetailsVisible();
-    });
-
-    test('Verify Action buttons on contract details page', async () => {
-        await contractDetailsPage.verifyActionButtons();
-    });
-
-    test('Verify Summary card data presence', async () => {
-        // This will log the amounts to console and ensure they are present
-        const details = await contractDetailsPage.getSummaryDetails();
-        
-        expect(details.balance).toContain('$');
-        expect(details.planAmount).toContain('$');
-    });
-
-    test('Verify all payment values from grid', async () => {
-        await contractDetailsPage.getAllPaymentDetails();
-    });
-
     // test('Verify Contract calculations and logic', async () => {
     //     await contractDetailsPage.verifyCalculationswrong();
     // });
 
-    // test.only('Verify Payoff calculations', async () => {
-    //     await calculations.verifyPayoffCalculations();
-    // });
+    test('Verify Initial calculations', async () => {
+        await calculations.verifyInitialCalculations();
+    });
 
-    // test.only('Verify Transaction History Calculation', async () => {
-    //     await calculations.verifyTransactionHistory();
-    // });
-
-
-
-    test('Verify navigation back to dashboard', async ({ page }) => {
-        await contractDetailsPage.goBackToDashboard();
-        // Verify we are back on the main dashboard url or see the dashboard heading
-        await expect(page).toHaveURL(/.*dashboard/);
+    test('Verify Transaction History Calculation', async () => {
+        await calculations.verifyTransactionHistory();
     });
 });

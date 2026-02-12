@@ -1,9 +1,6 @@
 Attempting to click View Details button...
 View Details button clicked.
 
---- Transaction History Analysis ---
-Calculations not populated, running verifyPayoffCalculations first...
-
 --- Recurring Amount Calculation Steps ---
 Plan Amount: 1200
 Total Payments: 18
@@ -27,9 +24,5 @@ Calculated Down Payment Amount: 0
 Calculated Interest Rate: 16.99
 Calculated Recurring: 81.35
 ---------------------------------
-Found Header: "Transaction History"
-Total Potential Transaction Rows Found: 9
-Transaction Row 1: $123.35, , 05/21/2024, , , , , Denefits Fee + Upfront Payment, ,  , , , , , Paid, , Visa 1111
->>> Specialized Handler: handleDenefitsFeeUpfrontPayment ($123.35)
-Transaction Row 2: $84.35, , 05/21/2024, , , , , First Recurring Payment, ,  , , , , , Paid, , Visa 1111
->>> Specialized Handler: handleRecurringPayment ($84.35)
+Excel file updated (Fetched): /Users/gurdeepsingh/tests/test-contract-data/BRPUTBW81519.xlsx
+Excel file updated (Calculated): /Users/gurdeepsingh/tests/test-contract-data/BRPUTBW81519.xlsx
