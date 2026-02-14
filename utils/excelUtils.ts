@@ -58,4 +58,14 @@ export class ExcelUtils {
         const buffer = xlsx.build([{ name: sheetName, data: rows, options: {} }]);
         fs.writeFileSync(filePath, buffer);
     }
+    /**
+     * Writes raw array data to an Excel file.
+     * @param filePath - Path to the Excel file.
+     * @param data - Array of arrays (rows).
+     * @param sheetName - Name of the sheet.
+     */
+    static writeRawDataToExcel(filePath: string, data: any[][], sheetName: string = 'TestData'): void {
+        const buffer = xlsx.build([{ name: sheetName, data: data, options: {} }]);
+        fs.writeFileSync(filePath, buffer);
+    }
 }

@@ -9,7 +9,8 @@
     "test:dashboard": "rm -rf allure-results && npx playwright test tests/Dashboard.spec.ts",
     "test:getreport": "npx allure generate allure-results --clean -o allure-report && npx allure open allure-report",
     "test:contractdetails": "rm -rf allure-results && npx playwright test tests/ContractDetails.spec.ts",
-    "test:cal": "rm -rf allure-results && npx playwright test tests/cal.spec.ts"
+    "test:cal": "rm -rf allure-results && npx playwright test tests/cal.spec.ts",
+    "test:profile": "rm -rf allure-results && npx playwright test tests/Profile.spec.ts"
   },
   "keywords": [],
   "author": "",
