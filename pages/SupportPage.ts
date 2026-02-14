@@ -10,10 +10,13 @@ export class SupportPage {
     readonly allButtons: Locator;
     readonly allLinks: Locator;
 
+    readonly supportDropdown: Locator;
+   
+
     constructor(page: Page) {
         this.page = page;
-        // Navigation locator (assuming it's in the sidebar or profile menu)
-        this.supportLink = page.getByRole('link', { name: /Support|Help/i }).first();
+        // // Navigation locator (assuming it's in the sidebar or profile menu)
+        // this.supportLink = page.getByRole('link', { name: /Support|Help/i }).first();
         
         // Page elements
         this.contactUsHeader = page.getByRole('heading', { name: /Support|Contact Us/i }).first();
@@ -23,16 +26,14 @@ export class SupportPage {
         
         this.allButtons = page.locator('button');
         this.allLinks = page.locator('a');
+        this.supportDropdown = page.locator('#dropdownMenuButton1');
+        this.supportLink = page.getByRole('link', { name: 'Support' });
     }
 
-    async navigateToSupportFromProfile() {
+    async navigateToSupport() {
         console.log('Navigating to Support page...');
-        // If there's a specific link to Support, we click it. 
-        // For now, assuming it's accessible via the sidebar which is usually present
-        await this.supportLink.click({ timeout: 5000 }).catch(() => {
-            console.log('Support link not found via getByRole, trying direct navigation if applicable');
-            return this.page.goto('https://testcustomer.denefits.com/support');
-        });
+        await this.supportDropdown.click();
+        await this.supportLink.click();
         await this.page.waitForTimeout(2000);
     }
 

@@ -31,11 +31,10 @@ test.describe('Support Page Tests', () => {
         // Wait for dashboard to load before proceeding to Profile
         await expect(page).toHaveURL(/.*dashboard/);
         
-        // 2. Go to Profile (as requested by user)
-        await profilePage.navigateToProfile();
+        
         
         // 3. Go to Support
-        await supportPage.navigateToSupportFromProfile();
+        await supportPage.navigateToSupport();
     });
 
     test('1. Verify Support Page UI Elements - Buttons and Links', async () => {

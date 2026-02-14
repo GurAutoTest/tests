@@ -26,19 +26,36 @@ test.describe('Have Us Call Page Tests', () => {
         await callbackPage.navigateToPage();
     });
 
-    test('1. Verify UI Elements and Field Editability', async () => {
+    test('1. Verify Buttons, Links Visibility and Field Editability', async () => {
+        console.log('--- Test Case 1: UI & Editability Check ---');
+        
+        // 1. Verify UI Elements Visibility
         await callbackPage.verifyUIVisibility();
+        
+        // Additional Link/Button checks for completeness
+        await expect(callbackPage.backToDashboardLink).toBeVisible();
+        await expect(callbackPage.lowPriority).toBeVisible();
+        await expect(callbackPage.mediumPriority).toBeVisible();
+        await expect(callbackPage.highPriority).toBeVisible();
+
+        // 2. Verify Field Editability
         await callbackPage.verifyFieldsEditable();
-        console.log('UI verification and editability check completed.');
+        
+        console.log('UI verification and editability check completed successfully.');
     });
 
-    test('2. Console Data Check', async () => {
+    test('2. Console Data and Verification Log', async () => {
+        console.log('--- Test Case 2: Verification Logging ---');
+        
         const nameValue = await callbackPage.nameInput.inputValue();
         const phoneValue = await callbackPage.phoneDropdown.inputValue();
+        const isSubmitEnabled = await callbackPage.submitButton.isEnabled();
         
-        console.log('--- Page Data Log ---');
-        console.log(`Pre-filled Name: ${nameValue}`);
-        console.log(`Pre-filled Phone: ${phoneValue}`);
-        console.log('Data logged to console successfully.');
+        console.log(`[LOG] Name Input Value: "${nameValue}"`);
+        console.log(`[LOG] Phone Select Value: "${phoneValue}"`);
+        console.log(`[LOG] Submit Button Enabled: ${isSubmitEnabled}`);
+        
+        // Simply logging checks as requested
+        console.log('All element checks logged to console.');
     });
 });

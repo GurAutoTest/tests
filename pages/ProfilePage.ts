@@ -8,6 +8,8 @@ export class ProfilePage {
     // --- Locators ---
     readonly backToDashboardLink: Locator;
     readonly profileMenu: Locator;
+    readonly profileDropdown: Locator;
+    readonly profileLink: Locator;
     
     // Tabs
     readonly profileTab: Locator;
@@ -65,14 +67,15 @@ export class ProfilePage {
         // Navigation & Layout
         this.backToDashboardLink = page.getByText(/Back to Dashboard/i).first();
         this.profileMenu = page.locator('.profile-name, .user-name, [class*="profile"] p').first();
+        this.profileDropdown = page.locator('#dropdownMenuButton1');
+        this.profileLink = page.getByRole('link', { name: 'My Profile' });
         
-        // Tabs
-        this.profileTab = page.locator('.nav-link').filter({ hasText: 'Profile' });
-        this.savedCardsTab = page.locator('.nav-link').filter({ hasText: 'Saved cards' });
-        this.bankTab = page.locator('.nav-link').filter({ hasText: 'Bank' });
-
-        this.changePasswordTab = page.getByText('Change Password');
-        this.commLanguageTab = page.locator('.nav-link').filter({ hasText: 'Communication Language' });
+        // Tabs - Using specific role and text to avoid ambiguity
+        this.profileTab = page.getByRole('tab', { name: 'Profile' }).first();
+        this.savedCardsTab = page.getByRole('tab', { name: 'Saved cards' }).first();
+        this.bankTab = page.getByRole('tab', { name: 'Bank' }).first();
+        this.changePasswordTab = page.getByRole('tab', { name: 'Change Password' }).first();
+        this.commLanguageTab = page.getByRole('tab', { name: 'Communication Language' }).first();
 
         this.prefixDropdown = page.locator('select[name="Salutation"]'); 
         this.firstNameInput = page.locator('input[name*="first"], input[placeholder*="First"]').first();
@@ -90,12 +93,12 @@ export class ProfilePage {
         this.addAlternateEmail = page.getByText('+ Add New Alternate Email');
 
         // Identity
-        this.ssnInput = page.locator('input[name="ssn"]');
-        this.driversLicenseInput = page.locator('input[name="dl"]');
-        this.dobInput = page.locator('input#birthdate-numeric');
+        this.ssnInput = page.locator('div:has-text("SSN number") >> input');
+        this.driversLicenseInput = page.locator('div:has-text("Driver’s License") >> input').first();
+        this.dobInput = page.locator('#birthdate-numeric');
 
         // Address
-        this.addressInput = page.locator('input[name="address"]');
+        this.addressInput = page.locator('div:has-text("Add your address") >> input').first();
         this.zipInput = page.locator('input#zip_code');
         this.cityInput = page.locator('input#city_name');
         this.stateInput = page.locator('input#state_name');
@@ -119,8 +122,9 @@ export class ProfilePage {
 
     async navigateToProfile() {
         // Direct navigation to ensure we are on the right page as per screenshot
-        await this.page.goto('https://testcustomer.denefits.com/profile', { waitUntil: 'load' }); 
-        await this.page.waitForTimeout(2000);
+       
+        await this.profileDropdown.click();
+        await this.profileLink.click();
     }
 
     // 1. UI Visibility & Editable Checks
@@ -166,8 +170,7 @@ export class ProfilePage {
 
         console.log('Switching to password tab...');
         await this.switchTab('password');
-        console.log('Waiting for password tab to load...');
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(2000); // Reduced from 9000
         await expect.soft(this.currentPasswordInput, 'Current Password input should be visible').toBeVisible();
         await expect.soft(this.newPasswordInput, 'New Password input should be visible').toBeVisible();
         await expect.soft(this.confirmPasswordInput, 'Confirm Password input should be visible').toBeVisible();

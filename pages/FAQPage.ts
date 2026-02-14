@@ -12,6 +12,8 @@ export class FAQPage {
     readonly noResultsText: Locator;
     readonly allButtons: Locator;
     readonly allLinks: Locator;
+    readonly faqDropdown: Locator;
+    readonly faqLink: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,11 +23,13 @@ export class FAQPage {
         this.noResultsText = page.getByText(/No results found|No FAQ found|Keyword not match/i);
         this.allButtons = page.locator('button');
         this.allLinks = page.locator('a');
+        this.faqDropdown = page.locator('#dropdownMenuButton1');
+        this.faqLink = page.getByRole('link', { name: 'FAQ\'s' });
     }
 
     async navigate() {
-        // Assuming direct navigation for reliability
-        await this.page.goto('https://testcustomer.denefits.com/faq', { waitUntil: 'load' });
+        await this.faqDropdown.click();
+        await this.faqLink.click();
         await this.page.waitForTimeout(2000);
     }
 

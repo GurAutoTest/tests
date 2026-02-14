@@ -8,29 +8,37 @@ export class CallbackPage {
     readonly phoneDropdown: Locator;
     readonly reasonDropdown: Locator;
     readonly messageArea: Locator;
+    readonly submitButton: Locator;
+    readonly backToDashboardLink: Locator;
+    readonly lowPriorityLabel: Locator;
+    readonly mediumPriorityLabel: Locator;
+    readonly highPriorityLabel: Locator;
+    readonly allButtons: Locator;
+    readonly allLinks: Locator;
     readonly lowPriority: Locator;
     readonly mediumPriority: Locator;
     readonly highPriority: Locator;
-    readonly submitButton: Locator;
-    readonly backToDashboardLink: Locator;
-    readonly allButtons: Locator;
-    readonly allLinks: Locator;
 
     constructor(page: Page) {
         this.page = page;
         // Navigation / Breadcrumb
-        this.backToDashboardLink = page.getByText(/Back to Dashboard/i).first();
+        this.backToDashboardLink = page.locator('h3', { hasText: 'Back to Dashboard' }).first();
 
         // Form Fields
-        this.nameInput = page.locator('input[class*="ng-valid"]').first();
-        this.phoneDropdown = page.locator('select.form-select').first();
-        this.reasonDropdown = page.locator('select').nth(1); // Second select on page
-        this.messageArea = page.locator('textarea[placeholder*="message"]');
+        this.nameInput = page.locator('input[name="text"]').first();
+        this.phoneDropdown = page.locator('select[name="phonenumber"]').first();
+        this.reasonDropdown = page.locator('select[name="select"]').first();
+        this.messageArea = page.locator('textarea[name="message"]').first();
         
-        // Priority Radio Buttons
+        // Priority Radio Buttons (Inputs)
         this.lowPriority = page.locator('input[type="radio"]').nth(0);
         this.mediumPriority = page.locator('input[type="radio"]').nth(1);
         this.highPriority = page.locator('input[type="radio"]').nth(2);
+
+        // Priority Labels (Visible)
+        this.lowPriorityLabel = page.getByText('Low', { exact: true });
+        this.mediumPriorityLabel = page.getByText('Medium', { exact: true });
+        this.highPriorityLabel = page.getByText('High', { exact: true });
 
         this.submitButton = page.getByRole('button', { name: /Submit/i });
         

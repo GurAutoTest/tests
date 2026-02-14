@@ -13,7 +13,8 @@
     "test:profile": "rm -rf allure-results && npx playwright test tests/Profile.spec.ts",
     "test:support": "rm -rf allure-results && npx playwright test tests/Support.spec.ts",
     "test:faq": "rm -rf allure-results && npx playwright test tests/FAQ.spec.ts",
-    "test:callback": "rm -rf allure-results && npx playwright test tests/Callback.spec.ts"
+    "test:callback": "rm -rf allure-results && npx playwright test tests/Callback.spec.ts",
+    "test:writetous": "rm -rf allure-results && npx playwright test tests/WriteToUs.spec.ts"
   },
   "keywords": [],
   "author": "",

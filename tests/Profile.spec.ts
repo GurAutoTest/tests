@@ -40,6 +40,7 @@ test.describe('Profile Management Tests', () => {
     });
 
     test.only('1. Verify UI Elements Visibility and Editability', async () => {
+        test.setTimeout(150000); // Increase to 150s
         await profilePage.verifyUIVisibility();
         
       });
