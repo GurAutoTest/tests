@@ -1,3 +1,6 @@
+//Need to work on this file partial paymore logic pending 
+
+
 import { Page, Locator, expect } from '@playwright/test';
 
 export class Calculations {
