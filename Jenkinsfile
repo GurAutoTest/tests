@@ -37,16 +37,23 @@ pipeline {
     post {
         always {
             // Archive Playwright HTML report
-            publishHTML(target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'playwright-report',
-                reportFiles: 'index.html',
-                reportName: 'Playwright HTML Report'
+            // publishHTML(target: [
+            //     allowMissing: false,
+            //     alwaysLinkToLastBuild: true,
+            //     keepAll: true,
+            //     reportDir: 'playwright-report',
+            //     reportFiles: 'index.html',
+            //     reportName: 'Playwright HTML Report'
+            // ])
+           
+            // Allure report
+            allure([
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'allure-results']]
             ])
 
-            // Archive the updated Excel result file as an artifact
+            // Excel file archive
             archiveArtifacts artifacts: 'test-data/*.xlsx', fingerprint: true
         }
     }

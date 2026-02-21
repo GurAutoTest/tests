@@ -1,0 +1,7 @@
+Results saved to Excel.
+
+--- MISMATCH REPORT ---
+Found 1 mismatches in this run:
+ID: TC_13 | Desc: Functional - Email Case Insensitivity | Expected: Pass | Actual: Fail
+-----------------------
+

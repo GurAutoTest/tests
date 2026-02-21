@@ -1,0 +1,7 @@
+Results saved to Excel.
+
+--- MISMATCH REPORT ---
+Found 1 mismatches in this run:
+ID: TC_42 | Desc: Functional - Email Mixed Case | Expected: Pass | Actual: Fail
+-----------------------
+

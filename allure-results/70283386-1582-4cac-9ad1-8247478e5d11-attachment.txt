@@ -1,0 +1,7 @@
+Results saved to Excel.
+
+--- MISMATCH REPORT ---
+Found 1 mismatches in this run:
+ID: TC_12 | Desc: Functional - Email Trailing Space | Expected: Pass | Actual: Fail
+-----------------------
+
