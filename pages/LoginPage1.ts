@@ -20,7 +20,7 @@ export class LoginPage1 {
 
     async navigate() {
         // Use 'commit' to bypass splash screen loading issues and wait for actual content
-        await this.page.goto('https://testcustomer.denefits.com/login', { waitUntil: 'commit' });
+        await this.page.goto('/login', { waitUntil: 'commit' });
         // Explicitly wait for the login form to be visible (past the splash screen)
         await this.emailInput.waitFor({ state: 'visible', timeout: 600000 });
     }

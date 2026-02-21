@@ -48,7 +48,7 @@ export class CallbackPage {
 
     async navigateToPage() {
         console.log('Navigating to Callback page...');
-        await this.page.goto('https://testcustomer.denefits.com/callback', { waitUntil: 'load' });
+        await this.page.goto('/callback', { waitUntil: 'load' });
         await this.page.waitForTimeout(2000);
     }
 
