@@ -3,7 +3,7 @@ import { LoginPage1 } from '../pages/LoginPage1';
 import { ExcelUtils } from '../utils/excelUtils';
 import path from 'path';
 
-const excelFilePath = path.join(process.cwd(), 'test-data/loginpage1data.xlsx');
+const excelFilePath = path.join(process.cwd(), 'test-data/testlogindata.xlsx');
 let loginData = ExcelUtils.readExcelAsJson(excelFilePath);
 
 // Reset executed flag for fresh report
