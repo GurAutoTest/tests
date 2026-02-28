@@ -34,16 +34,25 @@ pipeline {
         }
     }
 
-        post {
+
+post {
     always {
 
-        allure([
-        includeProperties: false,
-        jdk: '',
-        results: [[path: 'allure-results']]
-        ])
+        // Allure report (safe execution)
+        script {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
+                ])
+            }
+        }
 
+        // Archive Excel file
         archiveArtifacts artifacts: 'test-data/*.xlsx', fingerprint: true
     }
-    }
+}
+
+ 
 }
