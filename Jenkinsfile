@@ -56,7 +56,7 @@ post {
             Jenkins
             """,
             mimeType: 'text/html',
-            to: 'YOUR_EMAIL@gmail.com'
+            to: 'igurtest@gmail.com, gurdeep.97.gs@gmail.com'
         )
     }
 
@@ -79,7 +79,7 @@ post {
             Jenkins
             """,
             mimeType: 'text/html',
-            to: 'YOUR_EMAIL@gmail.com'
+            to: 'igurtest@gmail.com, gurdeep.97.gs@gmail.com'
         )
     }
 
