@@ -26,10 +26,16 @@ pipeline {
             }
         }
 
-        stage('Run Excel Driven Tests') {
+        // stage('Run Excel Driven Tests') {
+        //     steps {
+        //         // Using the script we just added to package.json
+        //         sh 'npm run test:excel'
+        //     }
+        // }
+
+        stage('Run Login Tests') {
             steps {
-                // Using the script we just added to package.json
-                sh 'npm run test:excel'
+                sh 'npm run test:lp1'
             }
         }
     }
