@@ -35,7 +35,54 @@ pipeline {
     }
 
 
+
+
 post {
+
+    success {
+        emailext(
+            subject: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+            <h2>Build SUCCESS</h2>
+
+            <b>Job:</b> ${env.JOB_NAME}<br>
+            <b>Build:</b> #${env.BUILD_NUMBER}<br>
+            <b>Status:</b> SUCCESS<br><br>
+
+            🔗 Build URL: ${env.BUILD_URL}<br>
+            📊 Allure Report: ${env.BUILD_URL}allure<br><br>
+
+            Regards,<br>
+            Jenkins
+            """,
+            mimeType: 'text/html',
+            to: 'YOUR_EMAIL@gmail.com'
+        )
+    }
+
+    failure {
+        emailext(
+            subject: "❌ FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            body: """
+            <h2>Build FAILED</h2>
+
+            <b>Job:</b> ${env.JOB_NAME}<br>
+            <b>Build:</b> #${env.BUILD_NUMBER}<br>
+            <b>Status:</b> FAILURE<br><br>
+
+            🔗 Build URL: ${env.BUILD_URL}<br>
+            📊 Allure Report: ${env.BUILD_URL}allure<br><br>
+
+            Check console logs for details.
+
+            Regards,<br>
+            Jenkins
+            """,
+            mimeType: 'text/html',
+            to: 'YOUR_EMAIL@gmail.com'
+        )
+    }
+
     always {
 
         // Allure report (safe execution)
@@ -48,6 +95,9 @@ post {
                 ])
             }
         }
+
+        // Archive reports
+        archiveArtifacts artifacts: '**/allure-report/**', allowEmptyArchive: true
 
         // Archive Excel file
         archiveArtifacts artifacts: 'test-data/*.xlsx', fingerprint: true
