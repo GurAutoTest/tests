@@ -1,8 +1,0 @@
-Results saved to Excel.
-
---- MISMATCH REPORT ---
-Found 2 mismatches in this run:
-ID: TC_03 | Desc: Negative - Invalid Email (Unregistered) | Expected:  | Actual: Fail
-ID: TC_11 | Desc: Functional - Email Leading Space | Expected: Pass | Actual: Fail
------------------------
-

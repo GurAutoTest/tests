@@ -1,0 +1,7 @@
+Results saved to Excel.
+
+--- MISMATCH REPORT ---
+Found 1 mismatches in this run:
+ID: TC_11 | Desc: Functional - Email Leading Space | Expected: Pass | Actual: Fail
+-----------------------
+
